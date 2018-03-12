@@ -83,14 +83,14 @@ void RotationControl(void)
       case RUN1_ROTATION:
         RELAY01_OFF();               // Rotation direction 1
         RELAY02_ON();                // Start Motor
-        NextTime = millis()+SEC(10); // Duration : 10 sec.
+        NextTime = millis()+seconds(10); // Duration : 10 sec.
         LCD_move(0,15);
         LCD_putc('+');
         RotationState = PAUSE1_ROTATION;
       break;
       case PAUSE1_ROTATION:
         RELAY02_OFF();                // Stop Motor
-        NextTime = millis()+SEC(5);   // Duration : 5 sec.
+        NextTime = millis()+seconds(5);   // Duration : 5 sec.
         RotationState = RUN2_ROTATION;
         LCD_move(0,15);
         LCD_putc('o');
@@ -98,14 +98,14 @@ void RotationControl(void)
       case RUN2_ROTATION:
         RELAY01_ON();                 // Rotation direction 2
         RELAY02_ON();                 // Start Motor
-        NextTime = millis()+SEC(10);  // Duration : 10 sec.
+        NextTime = millis()+seconds(10);  // Duration : 10 sec.
         RotationState = PAUSE2_ROTATION;
         LCD_move(0,15);
         LCD_putc('-');
       break;
       case PAUSE2_ROTATION:
         RELAY02_OFF();                // Stop Motor
-        NextTime = millis()+SEC(5);   // Duration : 5 sec.
+        NextTime = millis()+seconds(5);   // Duration : 5 sec.
         RotationState = RUN1_ROTATION;
         LCD_move(0,15);
         LCD_putc('o');
@@ -125,27 +125,27 @@ void WashControl(void)
     switch(WashState)
     {
       case PRE_WASH:
-        NextTime = millis()+MIN(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(5);  // Duration : 5 min.
         WashState = MAIN_WASH;
         RotationState = RUN1_ROTATION;
         LCD_move(0,0);
         LCD_puts("PreWash ");
       break;
       case MAIN_WASH:
-        NextTime = millis()+MIN(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(5);  // Duration : 5 min.
         WashState = RINCE;
         RotationState = NO_ROTATION;
         LCD_move(0,0);
         LCD_puts("Wash    ");
       break;
       case RINCE:
-        NextTime = millis()+MIN(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(5);  // Duration : 5 min.
         WashState = DRY;
         LCD_move(0,0);
         LCD_puts("Rince   ");
       break;
       case DRY:
-        NextTime = millis()+MIN(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(5);  // Duration : 5 min.
         WashState = END_WASH;
         LCD_move(0,0);
         LCD_puts("Dry     ");
