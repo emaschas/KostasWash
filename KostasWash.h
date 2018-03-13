@@ -71,6 +71,7 @@ enum MenuStatus
 enum WashStatus
 {
   NO_WASH,
+  START_WASH,
   PRE_WASH,
   MAIN_WASH,
   RINCE,
@@ -83,7 +84,8 @@ enum RotationStatus
   RUN1_ROTATION,
   PAUSE1_ROTATION,
   RUN2_ROTATION,
-  PAUSE2_ROTATION
+  PAUSE2_ROTATION,
+  STOP_ROTATION
 };
 
 // Shared Variables

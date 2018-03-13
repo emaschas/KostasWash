@@ -81,34 +81,41 @@ void RotationControl(void)
     switch(RotationState)
     {
       case RUN1_ROTATION:
-        RELAY01_OFF();               // Rotation direction 1
-        RELAY02_ON();                // Start Motor
-        NextTime = millis()+seconds(10); // Duration : 10 sec.
+        RELAY01_OFF();                    // Rotation direction 1
+        RELAY02_ON();                     // Start Motor
+        NextTime = millis()+seconds(3);   // Duration : 3 sec.
         LCD_move(0,15);
         LCD_putc('+');
         RotationState = PAUSE1_ROTATION;
       break;
       case PAUSE1_ROTATION:
-        RELAY02_OFF();                // Stop Motor
-        NextTime = millis()+seconds(5);   // Duration : 5 sec.
+        RELAY02_OFF();                    // Stop Motor
+        NextTime = millis()+seconds(1);   // Duration : 1 sec.
         RotationState = RUN2_ROTATION;
         LCD_move(0,15);
         LCD_putc('o');
       break;
       case RUN2_ROTATION:
-        RELAY01_ON();                 // Rotation direction 2
-        RELAY02_ON();                 // Start Motor
-        NextTime = millis()+seconds(10);  // Duration : 10 sec.
+        RELAY01_ON();                      // Rotation direction 2
+        RELAY02_ON();                      // Start Motor
+        NextTime = millis()+seconds(3);    // Duration : 3 sec.
         RotationState = PAUSE2_ROTATION;
         LCD_move(0,15);
         LCD_putc('-');
       break;
       case PAUSE2_ROTATION:
-        RELAY02_OFF();                // Stop Motor
-        NextTime = millis()+seconds(5);   // Duration : 5 sec.
+        RELAY02_OFF();                     // Stop Motor
+        NextTime = millis()+seconds(1);    // Duration : 1 sec.
         RotationState = RUN1_ROTATION;
         LCD_move(0,15);
         LCD_putc('o');
+      break;
+      case STOP_ROTATION:
+        RELAY01_OFF();                     // Rotation direction off
+        RELAY02_OFF();                     // Stop Motor
+        RotationState = NO_ROTATION;
+        LCD_move(0,15);
+        LCD_putc('x');      
       break;
     }
   }
@@ -124,28 +131,34 @@ void WashControl(void)
   {
     switch(WashState)
     {
+      case START_WASH:
+        NextTime = millis()+seconds(2);
+        WashState = PRE_WASH;
+        LCD_move(0,0);
+        LCD_puts("Start   ");
+      break;
       case PRE_WASH:
-        NextTime = millis()+minutes(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(1);  // Duration : 1 min.
         WashState = MAIN_WASH;
         RotationState = RUN1_ROTATION;
         LCD_move(0,0);
         LCD_puts("PreWash ");
       break;
       case MAIN_WASH:
-        NextTime = millis()+minutes(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(1);  // Duration : 1 min.
         WashState = RINCE;
-        RotationState = NO_ROTATION;
+        RotationState = STOP_ROTATION;
         LCD_move(0,0);
         LCD_puts("Wash    ");
       break;
       case RINCE:
-        NextTime = millis()+minutes(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(1);  // Duration : 1 min.
         WashState = DRY;
         LCD_move(0,0);
         LCD_puts("Rince   ");
       break;
       case DRY:
-        NextTime = millis()+minutes(5);  // Duration : 5 min.
+        NextTime = millis()+minutes(1);  // Duration : 1 min.
         WashState = END_WASH;
         LCD_move(0,0);
         LCD_puts("Dry     ");
@@ -181,25 +194,17 @@ int main(void)
       if(SwitchPressed == LONG_PRESS)
       {
         // Emergency Stop...
-        RotationState = NO_ROTATION;
+        // Stop everything... : All relays to 1 (inverted logic)
+        PORTA = 0xFF;
+        PORTC = 0xFF;        
         LCD_cls();
         LCD_puts("Emergency STOP\n");
         while(!0);
       }
       else 
       {
-        if(RotationState == NO_ROTATION)
-        {
-          LCD_move(0,9);
-          LCD_puts("Run   x");
-          RotationState = RUN1_ROTATION;
-        }
-        else
-        {
-          LCD_move(0,9);
-          LCD_puts("Stop  x");
-          RotationState = NO_ROTATION;
-        }
+        if(WashState == NO_WASH)  WashState = START_WASH;
+        else                      WashState = END_WASH;
       }
       SwitchPressed = NO_PRESS;
     }
