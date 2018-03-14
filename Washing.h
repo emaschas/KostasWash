@@ -9,42 +9,27 @@ enum WashStatus
   MAIN_WASH,
   RINCE,
   DRY,
-  END_WASH
+  END_WASH,
+  PAUSE_WASH,
+  ABORT_WASH
 };
+
 enum RotationStatus 
 {
   NO_ROTATION,
   RUN1_ROTATION,
-  PAUSE1_ROTATION,
   RUN2_ROTATION,
-  PAUSE2_ROTATION,
+  PAUSE_ROTATION,
   STOP_ROTATION
 };
 
-// Shared Variables
+// Shared functions
 // ----------------
-// Program Variables : Washing
-volatile uint8_t  WashState = NO_WASH;
-// Program Variables : Rotation (during Washing)
-volatile uint8_t  RotationState = NO_ROTATION;
-
-char WashText[] =
-{
-  "No",
-  "Start  ",
-  "Prewash",
-  "Wash   ",
-  "Rince  ",
-  "Dry    ",
-  "Finish "
-};
-char RotationText[] =
-{
-  "No",
-  "Turn +",
-  "Turn -",
-  "Pause ",
-  "Stop  "
-};
+void    RotationControl(void);
+void    WashControl(void);
+void    StartWash(void);
+void    AbortWash(void);
+uint8_t NoWash(void);
+void DisplayStatus(void);
 
 #endif
