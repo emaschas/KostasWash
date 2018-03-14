@@ -61,6 +61,7 @@ enum SwitchStatus
   SHORT_PRESS,
   LONG_PRESS
 };
+
 enum MenuStatus
 {
   WAIT_MENU,
@@ -68,15 +69,6 @@ enum MenuStatus
   DELAY_MENU,
   EXIT_MENU
 };
-
-// Shared Variables
-// ----------------
-// System variables
-volatile uint8_t  SwitchPressed  = NO_PRESS;
-volatile uint8_t  EncoderChanged = false;
-volatile uint8_t  EncoderCount   = 0;
-// Program Variables : Menus
-volatile uint8_t  MenuState = WAIT_MENU;
 
 // Macros for Encoder
 // ------------------
