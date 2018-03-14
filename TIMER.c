@@ -18,49 +18,48 @@
 #define T1_Prescaller_256  ( _BV(CS12) )
 #define T1_Prescaller_1024 ( _BV(CS10) | _BV(CS12) )
 
-// Timer 1 Control Register B : 
-//   WGM1=000 : Clear Timer on Compare Match (CTC) mode (0 -> OCRA)
-//   CS1 :      T1 Prescaller F/64
-#define myTCCR1B (_BV(WGM12) | (T1_Prescaller_64))
+uint32_t milliscount1 = 0;
+uint32_t milliscount2 = 0;
+uint16_t milliscount3 = 0;
+uint16_t milliscount4 = 0;
 
-uint32_t milliscount = 0;
-
-ISR( TIMER1_COMPA_vect )
+ISR(TIMER1_COMPA_vect)
 {
-  milliscount++;
+  if(milliscount1>0) milliscount1--;
+  if(milliscount2>0) milliscount2--;
+  if(milliscount3>0) milliscount3--;
+  if(milliscount4>0) milliscount4--;
 }
 
-void setTimer(void)
+void initTimer(void)
 {
   // STOP INTERRUPTS
   cli();
   // Clear Timer/Counter1
   TCNT1 = 0;
   // Clear counter
-  milliscount = 0;
+  milliscount1 = 0;
+  milliscount2 = 0;
+  milliscount3 = 0;
+  milliscount4 = 0;
   // Timer 1 Output Compare Register A
   OCR1A = 125;
   // Timer 1 Interrupt Mask Register
   TIMSK = _BV(OCIE1A);
-  // Timer 1 Timer Control Register B : see #define
-  TCCR1B = myTCCR1B;
+  // Timer 1 Control Register B : 
+  //   WGM1=000 : Clear Timer on Compare Match (CTC) mode (0 -> OCRA)
+  //   CS1 :      T1 Prescaller F/64
+  TCCR1B = _BV(WGM12) | (T1_Prescaller_64);
   // SET INTERRUPTS
   sei();
 }
 
-void stopTimer(void)
-{
-  // Timer Control Register B : Stop Timer 1
-  TCCR1B = 0;
-}
+void startTimer1(uint32_t count) { milliscount1 = count; }
+void startTimer2(uint16_t count) { milliscount2 = count; }
+void startTimer3(uint16_t count) { milliscount3 = count; }
+void startTimer4(uint16_t count) { milliscount4 = count; }
 
-void resumeTimer(void)
-{
-  // Timer 1 Timer Control Register B : see #define
-  TCCR1B = myTCCR1B;
-}
-
-uint32_t millis(void)
-{
-  return milliscount;
-}
+uint32_t countDown1(void) { return milliscount1; }
+uint16_t countDown2(void) { return milliscount2; }
+uint16_t countDown3(void) { return milliscount3; }
+uint16_t countDown4(void) { return milliscount4; }
