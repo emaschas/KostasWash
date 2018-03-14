@@ -28,4 +28,23 @@ volatile uint8_t  WashState = NO_WASH;
 // Program Variables : Rotation (during Washing)
 volatile uint8_t  RotationState = NO_ROTATION;
 
+char WashText[] =
+{
+  "No",
+  "Start  ",
+  "Prewash",
+  "Wash   ",
+  "Rince  ",
+  "Dry    ",
+  "Finish "
+};
+char RotationText[] =
+{
+  "No",
+  "Turn +",
+  "Turn -",
+  "Pause ",
+  "Stop  "
+};
+
 #endif
