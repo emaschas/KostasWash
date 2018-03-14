@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------
-# WinAVR Makefile Template written by Eric B. Weddington, Jörg Wunsch, et al.
+# WinAVR Makefile Template written by Eric B. Weddington, JÃ¶rg Wunsch, et al.
 # Released to the Public Domain
 # Additional material for this makefile was written by:
 # Peter Fleury, Tim Henigan, Colin O'Flynn, Reiner Patommel, Markus Pfaff, Sander Pool, Frederik Rouleau, Carlos Lamas
@@ -26,6 +26,7 @@ TARGET = KostasWash
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC  = main.c
+SRC += Washing.c
 SRC += TIMER.c
 SRC += LCD.c
 
