@@ -7,18 +7,24 @@
 #include "KostasWash.h"
 #include "Washing.h"
 
+// System variables
+volatile uint8_t  SwitchPressed  = NO_PRESS;
+volatile uint8_t  EncoderChanged = false;
+volatile uint8_t  EncoderCount   = 0;
+// Program Variables : Menus
+volatile uint8_t  MenuState = WAIT_MENU;
+
 //-----------------------------------------------------------------------------------
 // Interrupt Service Routine : Pin change for Switch (INT0=PD2)
 //-----------------------------------------------------------------------------------
 ISR(INT0_vect)
 {
-  static uint32_t start = 0;
-  if(millis() > start+20)
+  if(countDown3() < 480) // Debouce time 20ms
   {
     if(SWITCH) // On=Released
-      SwitchPressed = (millis()-start > 500 ? 2 : 1);
+      SwitchPressed = (countDown3() == 0 ? LONG_PRESS : SHORT_PRESS);
     else // Off=Pressed
-      start = millis();
+      startTimer3(500);
   }
 }
 
@@ -27,12 +33,11 @@ ISR(INT0_vect)
 //-----------------------------------------------------------------------------------
 ISR(INT1_vect)
 {
-  static uint32_t debounce = 0;
-  if(millis() > debounce)
+  if(countDown4() == 0)
   {
     if(ENCODER_B) EncoderCount--; else EncoderCount++;
     EncoderChanged = true;
-    debounce = millis() + 60;
+    startTimer4(60);
   }
 }
 
@@ -56,15 +61,16 @@ void initialise(void)
   GICR  = _BV(INT0)  | _BV(INT1);        // Enable INT0 and INT1 interrupts
   sei();                                 // Enable Interrupts
   // Start Timer
-  setTimer();
+  initTimer();
   // LCD
   LCD_begin();
   LCD_specialCar();
   LCD_puts("KostasWash v2.0\n");
   _delay_ms(1000);
-  LCD_puts("Waiting  Stop  +");
+  DisplayStatus();
   SwitchPressed  = NO_PRESS;
 }
+
 
 //-----------------------------------------------------------------------------------
 // MAIN
@@ -96,8 +102,8 @@ int main(void)
       }
       else 
       {
-        if(WashState == NO_WASH)  WashState = START_WASH;
-        else                      WashState = END_WASH;
+        if(NoWash())  StartWash();
+        else          AbortWash();
       }
       SwitchPressed = NO_PRESS;
     }
