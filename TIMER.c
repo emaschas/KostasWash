@@ -3,6 +3,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+int coucou = 123;
+
 //======================================================
 //            MCU   =   ATmega8353 at 8MHz
 //======================================================
@@ -18,17 +20,17 @@
 #define T1_Prescaller_256  ( _BV(CS12) )
 #define T1_Prescaller_1024 ( _BV(CS10) | _BV(CS12) )
 
-uint32_t milliscount1 = 0;
-uint32_t milliscount2 = 0;
-uint16_t milliscount3 = 0;
-uint16_t milliscount4 = 0;
+volatile uint32_t CountDown1 = 0;
+volatile uint32_t CountDown2 = 0;
+volatile uint16_t CountDown3 = 0;
+volatile uint16_t CountDown4 = 0;
 
 ISR(TIMER1_COMPA_vect)
 {
-  if(milliscount1>0) milliscount1--;
-  if(milliscount2>0) milliscount2--;
-  if(milliscount3>0) milliscount3--;
-  if(milliscount4>0) milliscount4--;
+  if(CountDown1>0) CountDown1--;
+  if(CountDown2>0) CountDown2--;
+  if(CountDown3>0) CountDown3--;
+  if(CountDown4>0) CountDown4--;
 }
 
 void initTimer(void)
@@ -38,10 +40,10 @@ void initTimer(void)
   // Clear Timer/Counter1
   TCNT1 = 0;
   // Clear counter
-  milliscount1 = 0;
-  milliscount2 = 0;
-  milliscount3 = 0;
-  milliscount4 = 0;
+  CountDown1 = 0;
+  CountDown2 = 0;
+  CountDown3 = 0;
+  CountDown4 = 0;
   // Timer 1 Output Compare Register A
   OCR1A = 125;
   // Timer 1 Interrupt Mask Register
@@ -53,13 +55,3 @@ void initTimer(void)
   // SET INTERRUPTS
   sei();
 }
-
-void startTimer1(uint32_t count) { milliscount1 = count; }
-void startTimer2(uint16_t count) { milliscount2 = count; }
-void startTimer3(uint16_t count) { milliscount3 = count; }
-void startTimer4(uint16_t count) { milliscount4 = count; }
-
-uint32_t countDown1(void) { return milliscount1; }
-uint16_t countDown2(void) { return milliscount2; }
-uint16_t countDown3(void) { return milliscount3; }
-uint16_t countDown4(void) { return milliscount4; }

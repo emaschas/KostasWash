@@ -1,6 +1,8 @@
 #ifndef _EM_Washing_h_
 #define _EM_Washing_h_
 
+#include "TIMER.h"
+
 enum WashStatus
 {
   NO_WASH,
@@ -23,6 +25,12 @@ enum RotationStatus
   STOP_ROTATION
 };
 
+typedef struct
+{
+  uint32_t duration;
+  uint16_t mask;
+} step;
+
 // Shared functions
 // ----------------
 void    RotationControl(void);
@@ -30,6 +38,7 @@ void    WashControl(void);
 void    StartWash(void);
 void    AbortWash(void);
 uint8_t NoWash(void);
-void DisplayStatus(void);
+void    DisplayRotationStatus(void);
+void    DisplayWashStatus(void);
 
 #endif

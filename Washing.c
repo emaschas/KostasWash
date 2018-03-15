@@ -5,6 +5,17 @@
 #include "KostasWash.h"
 #include "Washing.h"
 
+
+//---TEST---------
+step prog[] =
+{
+  { seconds(10), _BV(1)| _BV(2) },
+  { minutes(30), _BV(4)| _BV(5) },
+  { seconds(10), _BV(1)|_BV(12) },
+  { minutes(30), _BV(2)|_BV(13) }
+};
+
+
 // Shared Variables
 // ----------------
 volatile uint8_t  WashState = NO_WASH;
@@ -20,28 +31,28 @@ void  StopRotation(void) { RotationState = STOP_ROTATION; }
 void RotationControl(void)
 {
   static uint8_t   AfterPause;
-  if((countDown2() == 0 && RotationState != NO_ROTATION) || RotationState == STOP_ROTATION) 
+  if((CountDown2 == 0 && RotationState != NO_ROTATION) || RotationState == STOP_ROTATION) 
   {
-    DisplayStatus();
+    DisplayRotationStatus();
     switch(RotationState)
     {
       case RUN1_ROTATION:
         RELAY01_OFF();             // Rotation direction 1
         RELAY02_ON();              // Start Motor
-        startTimer2(seconds(3));   // Duration : 3 sec.
+        CountDown2 = seconds(3);   // Duration : 3 sec.
         RotationState = PAUSE_ROTATION;
         AfterPause    = RUN2_ROTATION;
       break;
       case RUN2_ROTATION:
         RELAY01_ON();               // Rotation direction 2
         RELAY02_ON();               // Start Motor
-        startTimer2(seconds(3));    // Duration : 3 sec.
+        CountDown2 = seconds(3);    // Duration : 3 sec.
         RotationState = PAUSE_ROTATION;
         AfterPause    = RUN1_ROTATION;
       break;
       case PAUSE_ROTATION:
         RELAY02_OFF();              // Stop Motor
-        startTimer2(seconds(1));    // Duration : 1 sec.
+        CountDown2 = seconds(1);    // Duration : 1 sec.
         RotationState = AfterPause;
       break;
       case STOP_ROTATION:
@@ -65,41 +76,43 @@ void AbortWash(void) { WashState = ABORT_WASH; }
 void WashControl(void)
 {
   static uint8_t  AfterPause;
-  if((countDown1() == 0 && WashState != NO_WASH) || WashState == ABORT_WASH)
+  if((CountDown1 == 0 && WashState != NO_WASH) || WashState == ABORT_WASH)
   {
-    DisplayStatus();
+    DisplayWashStatus();
     switch(WashState)
     {
       case START_WASH:
-        startTimer1(seconds(2));
+        CountDown1 = seconds(5);
         WashState = PRE_WASH;
       break;
       case PRE_WASH:
         StartRotation();
-        startTimer1(minutes(1));
+        CountDown1 = seconds(15);
         WashState = PAUSE_WASH;
         AfterPause = MAIN_WASH;
       break;
       case MAIN_WASH:
-        startTimer1(minutes(1));
+        StartRotation();
+        CountDown1 = seconds(15);
         WashState = PAUSE_WASH;
         AfterPause = RINCE;
-        StopRotation();
       break;
       case RINCE:
-        startTimer1(minutes(1));
+        CountDown1 = seconds(15);
         WashState = DRY;
       break;
       case DRY:
-        startTimer1(minutes(1));
+        CountDown1 = seconds(15);
         WashState = END_WASH;
       break;
       case PAUSE_WASH:
-        startTimer1(seconds(2));
+        StopRotation();
+        CountDown1 = seconds(3);
         WashState = AfterPause;
       break;
       case END_WASH:
       case ABORT_WASH:
+        StopRotation();
         WashState = NO_WASH;
       break;
     }
@@ -110,8 +123,6 @@ void WashControl(void)
 // Display Status
 //-----------------------------------------------------------------------------------
 
-void DisplayStatus(void)
-{
   char* WashText[] =
   {
     "No     ",
@@ -132,8 +143,15 @@ void DisplayStatus(void)
     "Pause ",
     "Stop  "
   };
-  LCD_move(0,0);
-  LCD_puts(RotationText[RotationState]);
+
+void DisplayRotationStatus(void)
+{
   LCD_move(0,9);
+  LCD_puts(RotationText[RotationState]);
+}
+
+void DisplayWashStatus(void)
+{
+  LCD_move(0,0);
   LCD_puts(WashText[WashState]);
 }

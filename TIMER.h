@@ -8,13 +8,10 @@
 #define  minutes(T)  (60000U*T)
 
 void       initTimer(void);           // Initialise and start the timer
-void     startTimer1(uint32_t count); // Start count down 1 for "count" milliseconds
-void     startTimer2(uint16_t count); // Start count down 2 for "count" milliseconds
-void     startTimer3(uint16_t count); // Start count down 3 for "count" milliseconds
-void     startTimer4(uint16_t count); // Start count down 4 for "count" milliseconds
-uint32_t  countDown1(void);           // Return the number of millisconds ellapsed left for count down 1
-uint16_t  countDown2(void);           // Return the number of millisconds ellapsed left for count down 2
-uint16_t  countDown3(void);           // Return the number of millisconds ellapsed left for count down 3
-uint16_t  countDown4(void);           // Return the number of millisconds ellapsed left for count down 4
+
+volatile uint32_t CountDown1;         // Return the millisconds left for count down 1
+volatile uint32_t CountDown2;         // Return the millisconds left for count down 2
+volatile uint16_t CountDown3;         // Return the millisconds left for count down 3
+volatile uint16_t CountDown4;         // Return the millisconds left for count down 4
 
 #endif

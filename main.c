@@ -19,12 +19,12 @@ volatile uint8_t  MenuState = WAIT_MENU;
 //-----------------------------------------------------------------------------------
 ISR(INT0_vect)
 {
-  if(countDown3() < 480) // Debouce time 20ms
+  if(CountDown3 < 480) // Debouce time 20ms
   {
     if(SWITCH) // On=Released
-      SwitchPressed = (countDown3() == 0 ? LONG_PRESS : SHORT_PRESS);
+      SwitchPressed = (CountDown3 == 0 ? LONG_PRESS : SHORT_PRESS);
     else // Off=Pressed
-      startTimer3(500);
+      CountDown3 = 500;
   }
 }
 
@@ -33,11 +33,11 @@ ISR(INT0_vect)
 //-----------------------------------------------------------------------------------
 ISR(INT1_vect)
 {
-  if(countDown4() == 0)
+  if(CountDown4 == 0)
   {
     if(ENCODER_B) EncoderCount--; else EncoderCount++;
     EncoderChanged = true;
-    startTimer4(60);
+    CountDown4 = 60;
   }
 }
 
@@ -67,7 +67,9 @@ void initialise(void)
   LCD_specialCar();
   LCD_puts("KostasWash v2.0\n");
   _delay_ms(1000);
-  DisplayStatus();
+  LCD_cls();
+  DisplayWashStatus();
+  DisplayRotationStatus();
   SwitchPressed  = NO_PRESS;
 }
 
