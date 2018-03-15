@@ -90,20 +90,17 @@ int main(void)
     // -----------------------------------------
     if(SwitchPressed)
     {
-      if(SwitchPressed == LONG_PRESS)
+      if(SwitchPressed == SHORT_PRESS)
       {
-        // Emergency Stop...
-        // Stop everything... : All relays to 1 (inverted logic)
-        PORTA = 0xFF;
+        if(NoWash()) StartWash(); else AbortWash();
+      }
+      else // LONG_PRESS = Emergency Stop...
+      {
+        PORTA = 0xFF; // Stop everything : All relays to 1 (inverted logic)
         PORTC = 0xFF;        
         LCD_cls();
         LCD_puts("Emergency STOP\n");
         while(!0);
-      }
-      else 
-      {
-        if(NoWash())  StartWash();
-        else          AbortWash();
       }
       SwitchPressed = NO_PRESS;
     }
