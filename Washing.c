@@ -9,10 +9,15 @@
 //---TEST---------
 step prog[] =
 {
-  { seconds(10), _BV(1)| _BV(2) },
-  { minutes(30), _BV(4)| _BV(5) },
-  { seconds(10), _BV(1)|_BV(12) },
-  { minutes(30), _BV(2)|_BV(13) }
+  { seconds(1), R01|R09 },
+  { seconds(1), R02|R10 },
+  { seconds(1), R03|R11 },
+  { seconds(1), R04|R12 },
+  { seconds(1), R05|R13 },
+  { seconds(1), R06|R14 },
+  { seconds(1), R07|R15 },
+  { seconds(1), R08|R16 },
+  {          0,       0 } // End of programe
 };
 
 
