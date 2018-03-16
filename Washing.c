@@ -91,11 +91,17 @@ void WashControl(void)
   static uint8_t  AfterPause;
   if(CountDown1 == 0 && WashState != NO_WASH)
   {
+    if( prog[WashState].end )
+    {
+      WashState = NO_WASH;
+      return;
+    }
     if( prog[WashState].text != 0 ) DisplayWashStatus();
     if( prog[WashState].rotation ) StartRotation(); else StopRotation();
     PORTA = ~(prog[WashState].mask & 0xFF);
     PORTC = ~(prog[WashState].mask >> 8);
     CountDown1 = seconds(prog[WashState].duration);
+    WashState++;
   }
 }
 
