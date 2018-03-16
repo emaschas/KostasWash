@@ -88,7 +88,6 @@ void AbortWash(void)
 
 void WashControl(void)
 {
-  static uint8_t  AfterPause;
   if(CountDown1 == 0 && WashState != NO_WASH)
   {
     if( prog[WashState].end )
@@ -139,6 +138,10 @@ char* WashText[] =
 
 void DisplayWashStatus(void)
 {
+  char txt[10];
   LCD_move(0,0);
+  itoa(WashState, txt, 10);
+  LCD_puts(txt);
+  LCD_move(0,3);
   LCD_puts(WashText[prog[WashState].text]);
 }
