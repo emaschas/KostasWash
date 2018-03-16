@@ -3,18 +3,7 @@
 
 #include "TIMER.h"
 
-enum WashStatus
-{
-  NO_WASH,
-  START_WASH,
-  PRE_WASH,
-  MAIN_WASH,
-  RINCE,
-  DRY,
-  END_WASH,
-  PAUSE_WASH,
-  ABORT_WASH
-};
+#define NO_WASH 0xFF
 
 enum RotationStatus 
 {
