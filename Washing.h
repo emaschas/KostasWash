@@ -18,9 +18,10 @@ enum RotationStatus
 typedef struct
 {
   uint32_t duration;   // Duration of this step
-  uint16_t mask;       // mask for PORTA (LSB) and PORTC (MSB)
   uint8_t  rotation:1; // step with rotation 
+  uint8_t  end:1;      // end of this program 
   uint8_t  text:4;     // index of text for display
+  uint16_t mask;       // mask for PORTA (LSB) and PORTC (MSB)
 } step;
 
 // Shared functions
