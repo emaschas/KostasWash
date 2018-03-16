@@ -75,52 +75,25 @@ void RotationControl(void)
 //-----------------------------------------------------------------------------------
 
 uint8_t NoWash(void) { return WashState == NO_WASH; }
-void StartWash(void) { WashState = START_WASH; }
-void AbortWash(void) { WashState = ABORT_WASH; }
+void StartWash(void) { WashState = 0; }
+
+void AbortWash(void) 
+{ 
+  PORTA = 0xFF;
+  PORTC = 0xFF;
+  WashState = NO_WASH;
+  CountDown1 = 0;
+}
 
 void WashControl(void)
 {
   static uint8_t  AfterPause;
-  if((CountDown1 == 0 && WashState != NO_WASH) || WashState == ABORT_WASH)
+  if(CountDown1 == 0 && WashState != NO_WASH)
   {
-    DisplayWashStatus();
-    switch(WashState)
-    {
-      case START_WASH:
-        CountDown1 = seconds(5);
-        WashState = PRE_WASH;
-      break;
-      case PRE_WASH:
-        StartRotation();
-        CountDown1 = seconds(15);
-        WashState = PAUSE_WASH;
-        AfterPause = MAIN_WASH;
-      break;
-      case MAIN_WASH:
-        StartRotation();
-        CountDown1 = seconds(15);
-        WashState = PAUSE_WASH;
-        AfterPause = RINCE;
-      break;
-      case RINCE:
-        CountDown1 = seconds(15);
-        WashState = DRY;
-      break;
-      case DRY:
-        CountDown1 = seconds(15);
-        WashState = END_WASH;
-      break;
-      case PAUSE_WASH:
-        StopRotation();
-        CountDown1 = seconds(3);
-        WashState = AfterPause;
-      break;
-      case END_WASH:
-      case ABORT_WASH:
-        StopRotation();
-        WashState = NO_WASH;
-      break;
-    }
+    if( prog[WashState] != 0 ) DisplayWashStatus();
+    PORTA = ~(prog[WashState].mask & 0xFF);
+    PORTC = ~(prog[WashState].mask >> 8);
+    CountDown1 = seconds(prog[WashState].duration);
   }
 }
 
@@ -128,26 +101,14 @@ void WashControl(void)
 // Display Status
 //-----------------------------------------------------------------------------------
 
-  char* WashText[] =
-  {
-    "No     ",
-    "Start  ",
-    "Prewash",
-    "Wash   ",
-    "Rince  ",
-    "Dry    ",
-    "Finish ",
-    "Pause  ",
-    "Abort  "
-  };
-  char* RotationText[] =
-  {
-    "No    ",
-    "Turn +",
-    "Turn -",
-    "Pause ",
-    "Stop  "
-  };
+char* RotationText[] =
+{
+  "No    ",
+  "Turn +",
+  "Turn -",
+  "Pause ",
+  "Stop  "
+};
 
 void DisplayRotationStatus(void)
 {
@@ -155,8 +116,21 @@ void DisplayRotationStatus(void)
   LCD_puts(RotationText[RotationState]);
 }
 
+char* WashText[] =
+{
+  "No     ",
+  "Start  ",
+  "Prewash",
+  "Wash   ",
+  "Rince  ",
+  "Dry    ",
+  "Finish ",
+  "Pause  ",
+  "Abort  "
+};
+
 void DisplayWashStatus(void)
 {
   LCD_move(0,0);
-  LCD_puts(WashText[WashState]);
+  LCD_puts(WashText[prog[WashState].text]);
 }
