@@ -115,21 +115,20 @@ enum MenuStatus
 // Masks definition for "step"
 // ---------------------------
 // PORTA : MSB - PORTC : LSB
-#define RELAY01 _BV(1)   // PINA1
-#define RELAY02 _BV(0)   // PINA0
-#define RELAY03 _BV(3)   // PINA3
-#define RELAY04 _BV(2)   // PINA2
-#define RELAY05 _BV(5)   // PINA5
-#define RELAY06 _BV(4)   // PINA4
-#define RELAY07 _BV(7)   // PINA7
-#define RELAY08 _BV(6)   // PINA6
-#define RELAY09 _BV(7+8) // PINC7
-#define RELAY10 _BV(3+8) // PINC3
-#define RELAY11 _BV(6+8) // PINC6
-#define RELAY12 _BV(2+8) // PINC2
-#define RELAY13 _BV(5+8) // PINC5
-#define RELAY14 _BV(1+8) // PINC1
-#define RELAY15 _BV(4+8) // PINC4
-#define RELAY16 _BV(0+8) // PINC0
-
+#define R01 _BV(1)   // PINA1
+#define R02 _BV(0)   // PINA0
+#define R03 _BV(3)   // PINA3
+#define R04 _BV(2)   // PINA2
+#define R05 _BV(5)   // PINA5
+#define R06 _BV(4)   // PINA4
+#define R07 _BV(7)   // PINA7
+#define R08 _BV(6)   // PINA6
+#define R09 _BV(7+8) // PINC7
+#define R10 _BV(3+8) // PINC3
+#define R11 _BV(6+8) // PINC6
+#define R12 _BV(2+8) // PINC2
+#define R13 _BV(5+8) // PINC5
+#define R14 _BV(1+8) // PINC1
+#define R15 _BV(4+8) // PINC4
+#define R16 _BV(0+8) // PINC0
 
