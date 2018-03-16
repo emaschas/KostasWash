@@ -9,16 +9,16 @@
 //---TEST---------
 step prog[] =
 {
-  // Duration   rot. text  mask
-  { seconds(1),   0,   1,  R01|R09 },
-  { seconds(1),   1,   1,  R02|R10 },
-  { seconds(1),   0,   1,  R03|R11 },
-  { seconds(1),   1,   1,  R04|R12 },
-  { seconds(1),   0,   1,  R05|R13 },
-  { seconds(1),   0,   1,  R06|R14 },
-  { seconds(1),   0,   1,  R07|R15 },
-  { seconds(1),   0,   1,  R08|R16 },
-  {          0,   0,   1,        0 } // End of programe
+  // Duration    rot. end  txt   mask
+  { seconds( 1),   0,   0,   1,  R01|R09 }, // Wash Program 1
+  { seconds(15),   1,   0,   1,  R02|R10 },
+  { seconds( 1),   0,   0,   1,  R03|R11 },
+  { seconds(15),   1,   0,   1,  R04|R12 },
+  { seconds( 5),   0,   0,   1,  R05|R13 },
+  { seconds( 5),   0,   0,   1,  R06|R14 },
+  { seconds( 5),   0,   0,   1,  R07|R15 },
+  { seconds( 5),   0,   0,   1,  R08|R16 },
+  { seconds( 0),   0,   1,   1,  0       } // End of Program 1
 };
 
 
