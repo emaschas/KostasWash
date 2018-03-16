@@ -4,21 +4,21 @@
 
 #include "KostasWash.h"
 #include "Washing.h"
-
+#include <stdlib.h>
 
 //---TEST---------
 step prog[] =
 {
   // Duration    rot. end  txt   mask
-  { seconds( 1),   0,   0,   1,  R01|R09 }, // Wash Program 1
-  { seconds(15),   1,   0,   1,  R02|R10 },
-  { seconds( 1),   0,   0,   1,  R03|R11 },
-  { seconds(15),   1,   0,   1,  R04|R12 },
-  { seconds( 5),   0,   0,   1,  R05|R13 },
-  { seconds( 5),   0,   0,   1,  R06|R14 },
-  { seconds( 5),   0,   0,   1,  R07|R15 },
-  { seconds( 5),   0,   0,   1,  R08|R16 },
-  { seconds( 0),   0,   1,   1,  0       } // End of Program 1
+  { seconds( 3),   0,   0,   1,  R03|R09 }, // Wash Program 1
+  { seconds(15),   1,   0,   2,  R04|R10 },
+  { seconds( 1),   0,   0,   7,  R05|R11 },
+  { seconds(15),   1,   0,   3,  R06|R12 },
+  { seconds( 1),   0,   0,   7,  R07|R13 },
+  { seconds( 5),   0,   0,   4,  R08|R14 },
+  { seconds( 1),   0,   0,   7,  R09|R15 },
+  { seconds( 5),   0,   0,   5,  R10|R16 },
+  { seconds( 0),   0,   1,   8,  0       } // End of Program 1
 };
 
 
@@ -65,6 +65,7 @@ void RotationControl(void)
         RELAY01_OFF();              // Rotation direction off
         RELAY02_OFF();              // Stop Motor
         RotationState = NO_ROTATION;
+        DisplayRotationStatus();
       break;
     }
   }
@@ -83,6 +84,7 @@ void AbortWash(void)
   PORTA = 0xFF;
   PORTC = 0xFF;
   WashState = NO_WASH;
+  DisplayWashStatus();
   CountDown1 = 0;
 }
 
@@ -90,16 +92,17 @@ void WashControl(void)
 {
   if(CountDown1 == 0 && WashState != NO_WASH)
   {
-    if( prog[WashState].end )
+    if( prog[WashState].end != 0 )
     {
       WashState = NO_WASH;
+      DisplayWashStatus();
       return;
     }
     if( prog[WashState].text != 0 ) DisplayWashStatus();
-    if( prog[WashState].rotation ) StartRotation(); else StopRotation();
+    if( prog[WashState].rotation != 0 ) StartRotation(); else StopRotation();
     PORTA = ~(prog[WashState].mask & 0xFF);
     PORTC = ~(prog[WashState].mask >> 8);
-    CountDown1 = seconds(prog[WashState].duration);
+    CountDown1 = prog[WashState].duration;
     WashState++;
   }
 }
@@ -110,37 +113,37 @@ void WashControl(void)
 
 char* RotationText[] =
 {
-  "No    ",
-  "Turn +",
-  "Turn -",
-  "Pause ",
-  "Stop  "
+  "     ",
+  "Turn+",
+  "Turn-",
+  "Pause",
+  "Stop "
 };
 
 void DisplayRotationStatus(void)
 {
-  LCD_move(0,9);
+  LCD_move(0,10);
   LCD_puts(RotationText[RotationState]);
 }
 
 char* WashText[] =
 {
-  "No     ", // 0
-  "Start  ", // 1
-  "Prewash", // 2
-  "Wash   ", // 3
-  "Rince  ", // 4
-  "Dry    ", // 5
-  "Finish ", // 6
-  "Pause  ", // 7
-  "Abort  "  // 8
+  "Ready ", // 0
+  "Start ", // 1
+  "Pre.  ", // 2
+  "Wash  ", // 3
+  "Drain ", // 4
+  "Spin  ", // 5
+  "Finish", // 6
+  "Pause ", // 7
+  "Abort "  // 8
 };
 
 void DisplayWashStatus(void)
 {
   char txt[10];
   LCD_move(0,0);
-  itoa(WashState, txt, 10);
+  sprintf(txt, "%02X", WashState);
   LCD_puts(txt);
   LCD_move(0,3);
   LCD_puts(WashText[prog[WashState].text]);
