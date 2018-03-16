@@ -3,7 +3,8 @@
 
 #include "TIMER.h"
 
-#define NO_WASH 0xFF
+#define    NO_WASH 0xFF
+#define ABORT_WASH 0xFE
 
 enum RotationStatus 
 {
@@ -16,8 +17,10 @@ enum RotationStatus
 
 typedef struct
 {
-  uint32_t duration; // Duration of this step
-  uint16_t mask;     // mask for PORTA (LSB) and PORTC (MSB)
+  uint32_t duration;   // Duration of this step
+  uint16_t mask;       // mask for PORTA (LSB) and PORTC (MSB)
+  uint8_t  rotation:1; // step with rotation 
+  uint8_t  text:4;     // index of text for display
 } step;
 
 // Shared functions
