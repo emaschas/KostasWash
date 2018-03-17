@@ -6,19 +6,42 @@
 #include "Washing.h"
 #include <stdlib.h>
 
+char* WashText[] =
+{
+  "Ready  ", // 0
+  "Start  ", // 1
+  "Prewash", // 2
+  "Wash   ", // 3
+  "Drain  ", // 4
+  "Spin   ", // 5
+  "Finish ", // 6
+  "Pause  ", // 7
+  "Abort  "  // 8
+};
+#define wREADY  0
+#define wSTART  1
+#define wPRE    2
+#define wWASH   3
+#define wDRAIN  4
+#define wSPIN   5
+#define wFINISH 6
+#define wPAUSE  7
+#define wABORT  8
+
 //---TEST---------
 step prog[] =
 {
-  // Duration    rot. end  txt   mask
-  { seconds( 3),   0,   0,   1,  R03|R09 }, // Wash Program 1
-  { seconds(15),   1,   0,   2,  R04|R10 },
-  { seconds( 1),   0,   0,   7,  R05|R11 },
-  { seconds(15),   1,   0,   3,  R06|R12 },
-  { seconds( 1),   0,   0,   7,  R07|R13 },
-  { seconds( 5),   0,   0,   4,  R08|R14 },
-  { seconds( 1),   0,   0,   7,  R09|R15 },
-  { seconds( 5),   0,   0,   5,  R10|R16 },
-  { seconds( 0),   0,   1,   8,  0       } // End of Program 1
+  // Duration    rot. end      txt   mask
+  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, // Wash Program 1
+  { seconds(15),   1,   0,    wPRE,  R04|R10 }, // Prewash
+  { seconds( 2),   0,   0,  wPAUSE,  R05|R11 }, // Pause
+  { seconds(15),   1,   0,   wWASH,  R06|R12 }, // Wash
+  { seconds( 2),   0,   0,  wPAUSE,  R07|R13 }, // Pause
+  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, // 
+  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // Pause
+  { seconds( 5),   0,   0,   wSPIN,  R10|R16 },
+  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // Pause
+  { seconds( 0),   0,   1, wFINISH,  0       } // End of Program 1
 };
 
 
@@ -81,9 +104,10 @@ void StartWash(void) { WashState = 0; }
 
 void AbortWash(void) 
 { 
+  WashState = NO_WASH;
+  StopRotation();
   PORTA = 0xFF;
   PORTC = 0xFF;
-  WashState = NO_WASH;
   DisplayWashStatus();
   CountDown1 = 0;
 }
@@ -111,33 +135,20 @@ void WashControl(void)
 // Display Status
 //-----------------------------------------------------------------------------------
 
-char* RotationText[] =
+char RotationText[] =
 {
-  "     ",
-  "Turn+",
-  "Turn-",
-  "Pause",
-  "Stop "
+  ' ',
+  '<',
+  '>',
+  '-',
+  '='
 };
 
 void DisplayRotationStatus(void)
 {
-  LCD_move(0,10);
-  LCD_puts(RotationText[RotationState]);
+  LCD_move(0,15);
+  LCD_putc(RotationText[RotationState]);
 }
-
-char* WashText[] =
-{
-  "Ready ", // 0
-  "Start ", // 1
-  "Pre.  ", // 2
-  "Wash  ", // 3
-  "Drain ", // 4
-  "Spin  ", // 5
-  "Finish", // 6
-  "Pause ", // 7
-  "Abort "  // 8
-};
 
 void DisplayWashStatus(void)
 {
@@ -146,5 +157,5 @@ void DisplayWashStatus(void)
   sprintf(txt, "%02X", WashState);
   LCD_puts(txt);
   LCD_move(0,3);
-  LCD_puts(WashText[prog[WashState].text]);
+  LCD_puts(WashText[(WashState==NO_WASH?0:prog[WashState].text)]);
 }
