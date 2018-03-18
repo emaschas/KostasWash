@@ -4,19 +4,20 @@
 
 #include "KostasWash.h"
 #include "Washing.h"
+#include "Menus.h"
 #include <stdlib.h>
 
 char* WashText[] =
 {
-  "Ready  ", // 0
-  "Start  ", // 1
-  "Prewash", // 2
-  "Wash   ", // 3
-  "Drain  ", // 4
-  "Spin   ", // 5
-  "Finish ", // 6
-  "Pause  ", // 7
-  "Abort  "  // 8
+  "Prg. court", // 0
+  "Debut     ", // 1
+  "Prelavage ", // 2
+  "Lavage    ", // 3
+  "Vidange   ", // 4
+  "Essorage  ", // 5
+  "Fin       ", // 6
+  "Pause     ", // 7
+  "Annuler   "  // 8
 };
 #define wREADY  0
 #define wSTART  1
@@ -32,18 +33,31 @@ char* WashText[] =
 step prog[] =
 {
   // Duration    rot. end      txt   mask
-  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, // Wash Program 1
-  { seconds(15),   1,   0,    wPRE,  R04|R10 }, // Prewash
-  { seconds( 2),   0,   0,  wPAUSE,  R05|R11 }, // Pause
-  { seconds(15),   1,   0,   wWASH,  R06|R12 }, // Wash
-  { seconds( 2),   0,   0,  wPAUSE,  R07|R13 }, // Pause
-  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, // 
-  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // Pause
-  { seconds( 5),   0,   0,   wSPIN,  R10|R16 },
-  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // Pause
-  { seconds( 0),   0,   1, wFINISH,  0       } // End of Program 1
+  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, //  0 Program 1
+  { seconds(16),   1,   0,    wPRE,  R04|R10 }, //  1 Prewash
+  { seconds( 2),   0,   0,  wPAUSE,  R05|R11 }, //  2 Pause
+  { seconds(16),   1,   0,   wWASH,  R06|R12 }, //  3 Wash
+  { seconds( 2),   0,   0,  wPAUSE,  R07|R13 }, //  4 Pause
+  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, //  5 Drain
+  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, //  6 Pause
+  { seconds( 5),   0,   0,   wSPIN,  R10|R16 }, //  7 Spin
+  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, //  8 Pause
+  { seconds( 0),   0,   1, wFINISH,  0       }, //  9 End of Program 1
+  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, // 10 Program 2
+  { seconds(16),   1,   0,   wWASH,  R06|R12 }, // 11 Wash
+  { seconds( 2),   0,   0,  wPAUSE,  R07|R13 }, // 12 Pause
+  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, // 13 Drain
+  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // 14 Pause
+  { seconds( 5),   0,   0,   wSPIN,  R10|R16 }, // 15 Spin
+  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // 16 Pause
+  { seconds( 0),   0,   1, wFINISH,  0       }, // 17 End of Program 2
+  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, // 18 Program 3 = Vidange
+  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, // 19 Drain
+  { seconds( 2),   0,   0,  wPAUSE,  0       }, // 20 Pause
+  { seconds( 0),   0,   1, wFINISH,  0       }  // 21 End of Program 3
 };
 
+uint8_t ProgramStart[] = { 0, 10, 18 };
 
 // Shared Variables
 // ----------------
@@ -100,7 +114,11 @@ void RotationControl(void)
 //-----------------------------------------------------------------------------------
 
 uint8_t NoWash(void) { return WashState == NO_WASH; }
-void StartWash(void) { WashState = 0; }
+
+void StartWash(uint8_t program) 
+{ 
+  WashState = ProgramStart[program]; 
+}
 
 void AbortWash(void) 
 { 
@@ -108,7 +126,6 @@ void AbortWash(void)
   StopRotation();
   PORTA = 0xFF;
   PORTC = 0xFF;
-  DisplayWashStatus();
   CountDown1 = 0;
 }
 
@@ -119,7 +136,7 @@ void WashControl(void)
     if( prog[WashState].end != 0 )
     {
       WashState = NO_WASH;
-      DisplayWashStatus();
+      displayMenu();
       return;
     }
     if( prog[WashState].text != 0 ) DisplayWashStatus();
@@ -153,9 +170,12 @@ void DisplayRotationStatus(void)
 void DisplayWashStatus(void)
 {
   char txt[10];
-  LCD_move(0,0);
-  sprintf(txt, "%02X", WashState);
-  LCD_puts(txt);
-  LCD_move(0,3);
-  LCD_puts(WashText[(WashState==NO_WASH?0:prog[WashState].text)]);
+  if(WashState != NO_WASH )
+  {
+    LCD_move(0,0);
+    sprintf(txt, "%02u", WashState);
+    LCD_puts(txt);
+    LCD_move(0,3);
+    LCD_puts(WashText[(WashState==NO_WASH?0:prog[WashState].text)]);
+  }
 }

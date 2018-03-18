@@ -62,14 +62,6 @@ enum SwitchStatus
   LONG_PRESS
 };
 
-enum MenuStatus
-{
-  WAIT_MENU,
-  PROGRAM_MENU,
-  DELAY_MENU,
-  EXIT_MENU
-};
-
 // Macros for Encoder
 // ------------------
 #define SWITCH     (PIND  &  _BV(PIND2))

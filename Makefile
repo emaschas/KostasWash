@@ -27,6 +27,7 @@ TARGET = KostasWash
 # List C source files here. (C dependencies are automatically generated.)
 SRC  = main.c
 SRC += Washing.c
+SRC += Menus.c
 SRC += TIMER.c
 SRC += LCD.c
 

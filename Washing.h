@@ -28,7 +28,7 @@ typedef struct
 // ----------------
 void    RotationControl(void);
 void    WashControl(void);
-void    StartWash(void);
+void    StartWash(uint8_t programme);
 void    AbortWash(void);
 uint8_t NoWash(void);
 void    DisplayRotationStatus(void);

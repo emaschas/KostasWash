@@ -6,13 +6,12 @@
 
 #include "KostasWash.h"
 #include "Washing.h"
+#include "Menus.h"
 
 // System variables
 volatile uint8_t  SwitchPressed  = NO_PRESS;
 volatile uint8_t  EncoderChanged = false;
 volatile uint8_t  EncoderCount   = 0;
-// Program Variables : Menus
-volatile uint8_t  MenuState = WAIT_MENU;
 
 //-----------------------------------------------------------------------------------
 // Interrupt Service Routine : Pin change for Switch (INT0=PD2)
@@ -65,11 +64,10 @@ void initialise(void)
   // LCD
   LCD_begin();
   LCD_specialCar();
-  LCD_puts("KostasWash v2.0\n");
+  LCD_puts("KostasWash v2.2\n");
   _delay_ms(1000);
   LCD_cls();
-  DisplayWashStatus();
-  DisplayRotationStatus();
+  displayMenu();
   SwitchPressed  = NO_PRESS;
 }
 
@@ -94,7 +92,17 @@ int main(void)
     {
       if(SwitchPressed == SHORT_PRESS)
       {
-        if(NoWash()) StartWash(); else AbortWash();
+        if(NoWash())
+        {
+          LCD_cls();
+          StartWash(ChoixProgramme); 
+        }
+        else
+        {
+          AbortWash();
+          ChoixProgramme = 0;
+          displayMenu();
+        }
       }
       else // LONG_PRESS = Emergency Stop...
       {
@@ -110,6 +118,11 @@ int main(void)
     // ----------------------------------------
     if(EncoderChanged)
     {
+      if( NoWash() ) 
+      {
+        ChoixProgramme = ( EncoderCount % MAXMENU );
+        displayMenu();
+      }
       EncoderChanged = false;
     }
     // Update : Rotation Machine State
