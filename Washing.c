@@ -111,7 +111,7 @@ void WashControl(void)
       DisplayProgram();
       return;
     }
-    if( Programs[SelectedProgram]->Step[WashStep].text != 0 ) DisplayWashStatus();
+    DisplayWashStatus();
     if( Programs[SelectedProgram]->Step[WashStep].rotation != 0 ) StartRotation(); else StopRotation();
     PORTA = ~(Programs[SelectedProgram]->Step[WashStep].mask & 0xFF);
     PORTC = ~(Programs[SelectedProgram]->Step[WashStep].mask >> 8);
