@@ -1,12 +1,11 @@
 /////////////////////////////////////////////
-// KostasWash v2.0                         //
+// KostasWash v3.1                         //
 // ---------------                         //
 // Target CPU : Atmega8535 at 8MHz (int.)  //
 /////////////////////////////////////////////
 
-#include "KostasWash.h"
+#include "Hardware.h"
 #include "Washing.h"
-#include "Menus.h"
 
 // System variables
 volatile uint8_t  SwitchPressed  = NO_PRESS;
@@ -67,8 +66,7 @@ void initialise(void)
   LCD_puts("KostasWash v2.2\n");
   _delay_ms(1000);
   LCD_cls();
-  displayMenu();
-  SwitchPressed  = NO_PRESS;
+  DisplayProgram();
 }
 
 
@@ -77,10 +75,9 @@ void initialise(void)
 //-----------------------------------------------------------------------------------
 int main(void)
 {
-  //uint8_t  ActualMenu = WAIT_MENU;
-  //char message[32];
+  SwitchPressed  = NO_PRESS;
+  EncoderChanged = false;
   initialise();
-  EncoderChanged = true;
   //
   // Main loop
   // ---------
@@ -92,17 +89,8 @@ int main(void)
     {
       if(SwitchPressed == SHORT_PRESS)
       {
-        if(NoWash())
-        {
-          LCD_cls();
-          StartWash(ChoixProgramme); 
-        }
-        else
-        {
-          AbortWash();
-          ChoixProgramme = 0;
-          displayMenu();
-        }
+        if(NoWash()) StartWash(); 
+        else AbortWash();
       }
       else // LONG_PRESS = Emergency Stop...
       {
@@ -110,7 +98,8 @@ int main(void)
         PORTC = 0xFF;        
         LCD_cls();
         LCD_puts("Emergency STOP\n");
-        while(!0);
+        while(!0); // Loop for ever
+        // RESET to restart !
       }
       SwitchPressed = NO_PRESS;
     }
@@ -118,11 +107,7 @@ int main(void)
     // ----------------------------------------
     if(EncoderChanged)
     {
-      if( NoWash() ) 
-      {
-        ChoixProgramme = ( EncoderCount % MAXMENU );
-        displayMenu();
-      }
+      if( NoWash() ) SelectProgram(EncoderCount);
       EncoderChanged = false;
     }
     // Update : Rotation Machine State

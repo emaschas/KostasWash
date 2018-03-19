@@ -2,67 +2,37 @@
 // State machine for Washing Cycles
 //-----------------------------------------------------------------------------------
 
-#include "KostasWash.h"
+#include "Hardware.h"
 #include "Washing.h"
-#include "Menus.h"
 #include <stdlib.h>
 
-char* WashText[] =
-{
-  "Prg. court", // 0
-  "Debut     ", // 1
-  "Prelavage ", // 2
-  "Lavage    ", // 3
-  "Vidange   ", // 4
-  "Essorage  ", // 5
-  "Fin       ", // 6
-  "Pause     ", // 7
-  "Annuler   "  // 8
-};
-#define wREADY  0
-#define wSTART  1
-#define wPRE    2
-#define wWASH   3
-#define wDRAIN  4
-#define wSPIN   5
-#define wFINISH 6
-#define wPAUSE  7
-#define wABORT  8
+#define NO_WASH 0xFF
 
-//---TEST---------
-step prog[] =
+enum RotationStatus 
 {
-  // Duration    rot. end      txt   mask
-  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, //  0 Program 1
-  { seconds(16),   1,   0,    wPRE,  R04|R10 }, //  1 Prewash
-  { seconds( 2),   0,   0,  wPAUSE,  R05|R11 }, //  2 Pause
-  { seconds(16),   1,   0,   wWASH,  R06|R12 }, //  3 Wash
-  { seconds( 2),   0,   0,  wPAUSE,  R07|R13 }, //  4 Pause
-  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, //  5 Drain
-  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, //  6 Pause
-  { seconds( 5),   0,   0,   wSPIN,  R10|R16 }, //  7 Spin
-  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, //  8 Pause
-  { seconds( 0),   0,   1, wFINISH,  0       }, //  9 End of Program 1
-  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, // 10 Program 2
-  { seconds(16),   1,   0,   wWASH,  R06|R12 }, // 11 Wash
-  { seconds( 2),   0,   0,  wPAUSE,  R07|R13 }, // 12 Pause
-  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, // 13 Drain
-  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // 14 Pause
-  { seconds( 5),   0,   0,   wSPIN,  R10|R16 }, // 15 Spin
-  { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, // 16 Pause
-  { seconds( 0),   0,   1, wFINISH,  0       }, // 17 End of Program 2
-  { seconds( 3),   0,   0,  wSTART,  R03|R09 }, // 18 Program 3 = Vidange
-  { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, // 19 Drain
-  { seconds( 2),   0,   0,  wPAUSE,  0       }, // 20 Pause
-  { seconds( 0),   0,   1, wFINISH,  0       }  // 21 End of Program 3
+  NO_ROTATION,
+  RUN1_ROTATION,
+  RUN2_ROTATION,
+  PAUSE_ROTATION,
+  STOP_ROTATION
 };
 
-uint8_t ProgramStart[] = { 0, 10, 18 };
+// Washing programs definitions
+// ----------------------------
+#include "Programs.h"
 
 // Shared Variables
 // ----------------
-volatile uint8_t  WashState = NO_WASH;
+volatile uint8_t  WashStep = NO_WASH;
 volatile uint8_t  RotationState = NO_ROTATION;
+volatile uint8_t  SelectedProgram = 0;
+
+void SelectProgram(uint8_t programme)
+{
+  SelectedProgram = (programme % PROGRAM_COUNT);
+  DisplayProgram();
+}
+
 
 //-----------------------------------------------------------------------------------
 // Rotation State Machine
@@ -113,38 +83,40 @@ void RotationControl(void)
 // Washing State Machine
 //-----------------------------------------------------------------------------------
 
-uint8_t NoWash(void) { return WashState == NO_WASH; }
+uint8_t NoWash(void) { return WashStep == NO_WASH; }
 
-void StartWash(uint8_t program) 
+void StartWash(void) 
 { 
-  WashState = ProgramStart[program]; 
+  LCD_cls();
+  WashStep = 0; // First step of the program
 }
 
 void AbortWash(void) 
 { 
-  WashState = NO_WASH;
+  WashStep = NO_WASH;
   StopRotation();
   PORTA = 0xFF;
   PORTC = 0xFF;
   CountDown1 = 0;
+  DisplayProgram();
 }
 
 void WashControl(void)
 {
-  if(CountDown1 == 0 && WashState != NO_WASH)
+  if(CountDown1 == 0 && WashStep != NO_WASH)
   {
-    if( prog[WashState].end != 0 )
+    if( Programs[SelectedProgram]->Step[WashStep].end != 0 )
     {
-      WashState = NO_WASH;
-      displayMenu();
+      WashStep = NO_WASH;
+      DisplayProgram();
       return;
     }
-    if( prog[WashState].text != 0 ) DisplayWashStatus();
-    if( prog[WashState].rotation != 0 ) StartRotation(); else StopRotation();
-    PORTA = ~(prog[WashState].mask & 0xFF);
-    PORTC = ~(prog[WashState].mask >> 8);
-    CountDown1 = prog[WashState].duration;
-    WashState++;
+    if( Programs[SelectedProgram]->Step[WashStep].text != 0 ) DisplayWashStatus();
+    if( Programs[SelectedProgram]->Step[WashStep].rotation != 0 ) StartRotation(); else StopRotation();
+    PORTA = ~(Programs[SelectedProgram]->Step[WashStep].mask & 0xFF);
+    PORTC = ~(Programs[SelectedProgram]->Step[WashStep].mask >> 8);
+    CountDown1 = Programs[SelectedProgram]->Step[WashStep].duration;
+    WashStep++;
   }
 }
 
@@ -170,12 +142,18 @@ void DisplayRotationStatus(void)
 void DisplayWashStatus(void)
 {
   char txt[10];
-  if(WashState != NO_WASH )
+  if(WashStep != NO_WASH )
   {
     LCD_move(0,0);
-    sprintf(txt, "%02u", WashState);
+    sprintf(txt, "%02u", WashStep);
     LCD_puts(txt);
     LCD_move(0,3);
-    LCD_puts(WashText[(WashState==NO_WASH?0:prog[WashState].text)]);
+    LCD_puts(WashText[(WashStep==NO_WASH ? 0 : Programs[SelectedProgram]->Step[WashStep].text)]);
   }
+}
+
+void DisplayProgram(void)
+{
+  LCD_move(0,0);
+  LCD_puts(Programs[SelectedProgram]->Text);
 }
