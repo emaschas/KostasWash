@@ -4,8 +4,8 @@
 
 char* menuText[] =
 {
-  "Programme Court ",
   "Programme Long  ",
+  "Programme Court ",
   "Vidange         "
 };
 
