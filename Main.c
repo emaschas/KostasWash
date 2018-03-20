@@ -64,7 +64,7 @@ void initialise(void)
   // LCD
   LCD_begin();
   LCD_specialCar();
-  LCD_puts("KostasWash v2.2\n");
+  LCD_puts("KostasWash v3.1\n");
   _delay_ms(1000);
   LCD_cls();
   DisplayProgram();
