@@ -17,12 +17,13 @@ volatile uint8_t  EncoderCount   = 0;
 //-----------------------------------------------------------------------------------
 ISR(INT0_vect)
 {
-  if(CountDown3 < 480) // Debouce time 20ms
+  #define LONG_PRESS_TIME 1000 // milliseconds
+  if(CountDown3 < (LONG_PRESS_TIME-20)) // Debouce time 20ms
   {
     if(SWITCH) // On=Released
       SwitchPressed = (CountDown3 == 0 ? LONG_PRESS : SHORT_PRESS);
     else // Off=Pressed
-      CountDown3 = 500;
+      CountDown3 = LONG_PRESS_TIME;
   }
 }
 
@@ -35,7 +36,7 @@ ISR(INT1_vect)
   {
     if(ENCODER_B) EncoderCount--; else EncoderCount++;
     EncoderChanged = true;
-    CountDown4 = 60;
+    CountDown4 = 60; // Debouce time 60ms
   }
 }
 
