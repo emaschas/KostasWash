@@ -29,24 +29,24 @@
 //   PD5 : LCD_DB7
 //-----------------------------------------------------------------------------------
 // Washing machine 
-//-----------------------------------------------------------------------------------
-//   PA1 : Relay R01
-//   PA0 : Relay R02
-//   PA3 : Relay R03
-//   PA2 : Relay R04
-//   PA5 : Relay R05
-//   PA4 : Relay R06
-//   PA7 : Relay R07
-//   PA6 : Relay R08
-//   PC7 : Relay R09
-//   PC3 : Relay R10
-//   PC6 : Relay R11
-//   PC2 : Relay R12
-//   PC5 : Relay R13
-//   PC1 : Relay R14
-//   PC4 : Relay R15
-//   PC0 : Relay R16
-//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+// PA1 : Relay R01 Verrou porte      COM : (6E)                        NO : (5E) Verrou electrique        NC : (??) STOP light
+// PA0 : Relay R02 Vanne froid       COM : COM.R03+R10+R11 Hydrostat   NO : (4E) Electrovanne froid       NC : -
+// PA3 : Relay R03 vanne chaud       COM : COM.R02+R10+R11 Hydrostat   NO : (3D)                          NC : -
+// PA2 : Relay R04 Chauffe           COM : (6E)                        NO : (12C) Résistance chauffante   NC : -
+// PA5 : Relay R05 Vidange           COM : (6E)                        NO : (11C) Pompe de vidange        NC : -
+// PA4 : Relay R06 Marche moteur     COM : (6E)                        NO : COM.R07 Inversion moteur      NC : -
+// PA7 : Relay R07 Inversion moteur  COM : NO.R06                      NO : (6D) + COM.R08 Vitesse lavage NC : (2E)
+// PA6 : Relay R08 Vitesse lavage    COM : NO.R06                      NO : (2C)                          NC : (2D)
+// PC7 : Relay R09 Vitesse essorage  COM : NO.R06                      NO : (6C)                          NC : (4D)
+// PC3 : Relay R10 Niveau d'eau A    COM : COM.R02+R03 Electrovannes   NO : (8C)                          NC : (7C) Hydrostat A
+// PC6 : Relay R11 Niveau d'eau B    COM : COM.R02+R03 Electrovannes   NO : (8C)                          NC : (7C) Hydrostat B
+// PC2 : Relay R12 nc
+// PC5 : Relay R13 nc
+// PC1 : Relay R14 nc
+// PC4 : Relay R15 nc
+// PC0 : Relay R16 nc
+//-----------------------------------------------------------------------------------------------------------------------------
 
 #define false   0
 #define true  (!0)
