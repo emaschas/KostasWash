@@ -68,59 +68,40 @@ enum SwitchStatus
 #define ENCODER_A  (PIND  &  _BV(PIND3))
 #define ENCODER_B  (PIND  &  _BV(PIND4))
 
-// Macros for Relays
-// -----------------
-// Inverted logic : 1=relay off 0=relay on
-#define RELAY01_OFF()  PORTA |=  _BV(PINA1)
-#define RELAY01_ON()   PORTA &= ~_BV(PINA1)
-#define RELAY02_OFF()  PORTA |=  _BV(PINA0)
-#define RELAY02_ON()   PORTA &= ~_BV(PINA0)
-#define RELAY03_OFF()  PORTA |=  _BV(PINA3)
-#define RELAY03_ON()   PORTA &= ~_BV(PINA3)
-#define RELAY04_OFF()  PORTA |=  _BV(PINA2)
-#define RELAY04_ON()   PORTA &= ~_BV(PINA2)
-#define RELAY05_OFF()  PORTA |=  _BV(PINA5)
-#define RELAY05_ON()   PORTA &= ~_BV(PINA5)
-#define RELAY06_OFF()  PORTA |=  _BV(PINA4)
-#define RELAY06_ON()   PORTA &= ~_BV(PINA4)
-#define RELAY07_OFF()  PORTA |=  _BV(PINA7)
-#define RELAY07_ON()   PORTA &= ~_BV(PINA7)
-#define RELAY08_OFF()  PORTA |=  _BV(PINA6)
-#define RELAY08_ON()   PORTA &= ~_BV(PINA6)
-#define RELAY09_OFF()  PORTC |=  _BV(PINC7)
-#define RELAY09_ON()   PORTC &= ~_BV(PINC7)
-#define RELAY10_OFF()  PORTC |=  _BV(PINC3)
-#define RELAY10_ON()   PORTC &= ~_BV(PINC3)
-#define RELAY11_OFF()  PORTC |=  _BV(PINC6)
-#define RELAY11_ON()   PORTC &= ~_BV(PINC6)
-#define RELAY12_OFF()  PORTC |=  _BV(PINC2)
-#define RELAY12_ON()   PORTC &= ~_BV(PINC2)
-#define RELAY13_OFF()  PORTC |=  _BV(PINC5)
-#define RELAY13_ON()   PORTC &= ~_BV(PINC5)
-#define RELAY14_OFF()  PORTC |=  _BV(PINC1)
-#define RELAY14_ON()   PORTC &= ~_BV(PINC1)
-#define RELAY15_OFF()  PORTC |=  _BV(PINC4)
-#define RELAY15_ON()   PORTC &= ~_BV(PINC4)
-#define RELAY16_OFF()  PORTC |=  _BV(PINC0)
-#define RELAY16_ON()   PORTC &= ~_BV(PINC0)
-
 // Masks definition for "step"
 // ---------------------------
 // PORTA : MSB - PORTC : LSB
-#define R01 _BV(1)   // PINA1
-#define R02 _BV(0)   // PINA0
-#define R03 _BV(3)   // PINA3
-#define R04 _BV(2)   // PINA2
-#define R05 _BV(5)   // PINA5
-#define R06 _BV(4)   // PINA4
-#define R07 _BV(7)   // PINA7
-#define R08 _BV(6)   // PINA6
-#define R09 _BV(7+8) // PINC7
-#define R10 _BV(3+8) // PINC3
-#define R11 _BV(6+8) // PINC6
-#define R12 _BV(2+8) // PINC2
-#define R13 _BV(5+8) // PINC5
-#define R14 _BV(1+8) // PINC1
-#define R15 _BV(4+8) // PINC4
-#define R16 _BV(0+8) // PINC0
+#define LOCK   (_BV(1))            // R01 - PINA1 - DOOR LOCK
+#define LEV1   0                   // Level 1 is always available
+#define LEV2   (_BV(0))            // R02 - PINA0 - WATER LEVEL 2
+#define LEV3   (_BV(3))            // R03 - PINA3 - WATER LEVEL 3
+#define EVCOLD (_BV(2))            // R04 - PINA2 - ELECTROVALVE COLD WATER
+#define EVHOT  (_BV(5))            // R05 - PINA5 - ELECTROVALVE HOT WATER
+#define HEAT   (_BV(4))            // R06 - PINA4 - HEATER ON
+#define DRAIN  (_BV(7))            // R07 - PINA7 - DRAIN PUMP
+#define MOTOR  (_BV(6))            // R08 - PINA6 - WASH/SPIN MOTOR ON
+#define REV    (_BV(7+8))          // R09 - PINC7 - REVERSE MOTOR DIRECTION
+#define SPIN   (_BV(3+8)|_BV(6+8)) // R10+R11 - PINC3+PINC6 - SPIN SPEED (ELSE WASH SPEED)
+#define R12    (_BV(2+8))          // R12 - PINC2 - NOT USED
+#define R13    (_BV(5+8))          // R13 - PINC5 - NOT USED
+#define R14    (_BV(1+8))          // R14 - PINC1 - NOT USED
+#define R15    (_BV(4+8))          // R15 - PINC4 - NOT USED
+#define R16    (_BV(0+8))          // R16 - PINC0 - NOT USED
+
+
+// TEMPORARY
+#define R03  0
+#define R06  0
+#define R07  0
+#define R08  0
+#define R09  0
+#define R10  0
+#define RELAY01_ON()
+#define RELAY01_OFF()
+#define RELAY02_ON()
+#define RELAY02_OFF()
+
+
+
+
 

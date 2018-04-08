@@ -99,7 +99,9 @@ int main(void)
         PORTC = 0xFF;        
         LCD_cls();
         LCD_puts("Emergency STOP\n");
-        while(!0); // Loop for ever
+        _delay_ms(3000);
+        DisplayProgram();
+        // while(!0); // Loop for ever
         // RESET to restart !
       }
       SwitchPressed = NO_PRESS;
