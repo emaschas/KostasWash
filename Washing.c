@@ -26,6 +26,7 @@ enum RotationStatus
 volatile uint8_t  WashStep = NO_WASH;
 volatile uint8_t  RotationState = NO_ROTATION;
 volatile uint8_t  SelectedProgram = 0;
+volatile uint16_t CurrentMask;
 
 void SelectProgram(uint8_t programme)
 {
@@ -50,27 +51,28 @@ void RotationControl(void)
     switch(RotationState)
     {
       case RUN1_ROTATION:
-        RELAY01_OFF();             // Rotation direction 1
-        RELAY02_ON();              // Start Motor
-        CountDown2 = seconds(3);   // Duration : 3 sec.
+        PORTA = ~((CurrentMask | MOTOR) & 0xFF);       // Motor forward
+        PORTC = ~((CurrentMask | MOTOR) >> 8);
+        CountDown2 = seconds(3);                       // Duration : 3 sec.
         RotationState = PAUSE_ROTATION;
         AfterPause    = RUN2_ROTATION;
       break;
       case RUN2_ROTATION:
-        RELAY01_ON();               // Rotation direction 2
-        RELAY02_ON();               // Start Motor
-        CountDown2 = seconds(3);    // Duration : 3 sec.
+        PORTA = ~((CurrentMask | MOTOR | REV) & 0xFF); // Motor reverse
+        PORTC = ~((CurrentMask | MOTOR | REV) >> 8);
+        CountDown2 = seconds(3);                       // Duration : 3 sec.
         RotationState = PAUSE_ROTATION;
         AfterPause    = RUN1_ROTATION;
       break;
       case PAUSE_ROTATION:
-        RELAY02_OFF();              // Stop Motor
-        CountDown2 = seconds(1);    // Duration : 1 sec.
+        PORTA = ~(CurrentMask & 0xFF);                 // Stop motor
+        PORTC = ~(CurrentMask >> 8);
+        CountDown2 = seconds(1);                       // Duration : 1 sec.
         RotationState = AfterPause;
       break;
       case STOP_ROTATION:
-        RELAY01_OFF();              // Rotation direction off
-        RELAY02_OFF();              // Stop Motor
+        PORTA = ~(CurrentMask & 0xFF);                 // Stop motor
+        PORTC = ~(CurrentMask >> 8);
         RotationState = NO_ROTATION;
         DisplayRotationStatus();
       break;
@@ -113,9 +115,10 @@ void WashControl(void)
     }
     DisplayWashStatus();
     if( Programs[SelectedProgram]->Step[WashStep].rotation != 0 ) StartRotation(); else StopRotation();
-    PORTA = ~(Programs[SelectedProgram]->Step[WashStep].mask & 0xFF);
-    PORTC = ~(Programs[SelectedProgram]->Step[WashStep].mask >> 8);
-    CountDown1 = Programs[SelectedProgram]->Step[WashStep].duration;
+    CurrentMask = pgm_read_word(Programs[SelectedProgram]->Step[WashStep].mask);
+    PORTA = ~(CurrentMask & 0xFF);
+    PORTC = ~(CurrentMask >> 8);
+    CountDown1 = pgm_read_dword(Programs[SelectedProgram]->Step[WashStep].duration);
     WashStep++;
   }
 }

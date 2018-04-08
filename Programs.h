@@ -1,9 +1,11 @@
+#include <avr/pgmspace.h>
+
 // Washing programs definitions
 // ----------------------------
 
 // Structures definitions
 // ----------------------
-typedef struct
+typedef struct PROGMEM
 {
   uint32_t duration;   // Duration of this step
   uint8_t  rotation:1; // step with rotation 
@@ -78,8 +80,8 @@ program P2 =
   "Programme court",
   {
     // Duration    rot. end      txt   mask
-    { seconds( 3),   0,   0,  wSTART,  R03|R09 }, //  Start
-    { seconds( 2),   0,   0,  wPAUSE,  R09|R15 }, //  Pause
+    { seconds( 3),   0,   0,  wSTART,  LOCK },    //  Start
+    { seconds( 2),   0,   0,  wPAUSE,  LOCK },    //  Pause
     { seconds( 0),   0,   1, wFINISH,  0       }  //  End of Program
   }
 };
@@ -89,9 +91,9 @@ program P3 =
   "Vidange        ",
   {
     // Duration    rot. end      txt   mask
-    { seconds( 3),   0,   0,  wSTART,  R03|R09 }, //  Start
-    { seconds( 5),   0,   0,  wDRAIN,  R08|R14 }, //  Drain
-    { seconds( 2),   0,   0,  wPAUSE,  0       }, //  Pause
+    { seconds( 3),   0,   0,  wSTART,  LOCK },    //  Start
+    { seconds( 5),   0,   0,  wDRAIN,  LOCK },    //  Drain
+    { seconds( 2),   0,   0,  wPAUSE,  LOCK },    //  Pause
     { seconds( 0),   0,   1, wFINISH,  0       }  //  End of Program
   }
 };

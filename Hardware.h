@@ -87,21 +87,3 @@ enum SwitchStatus
 #define R14    (_BV(1+8))          // R14 - PINC1 - NOT USED
 #define R15    (_BV(4+8))          // R15 - PINC4 - NOT USED
 #define R16    (_BV(0+8))          // R16 - PINC0 - NOT USED
-
-
-// TEMPORARY
-#define R03  0
-#define R06  0
-#define R07  0
-#define R08  0
-#define R09  0
-#define R10  0
-#define RELAY01_ON()
-#define RELAY01_OFF()
-#define RELAY02_ON()
-#define RELAY02_OFF()
-
-
-
-
-
