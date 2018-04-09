@@ -1,4 +1,5 @@
 #include "LCD.h"
+#include <avr/pgmspace.h>
 
 // LCD Display
 //   PD5  LCD_DB7
@@ -169,6 +170,11 @@ void LCD_putc( uint8_t c )
 void LCD_puts( char *s )
 {
   for( char* p=s; *p; p++ ) LCD_putc( *p );
+}
+
+void LCD_puts_P( const char *s )
+{
+  while(pgm_read_byte(s) != 0) LCD_putc( pgm_read_byte(s++) );
 }
 
 void LCD_cls()

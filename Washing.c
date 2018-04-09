@@ -27,6 +27,9 @@ volatile uint8_t  WashStep = NO_WASH;
 volatile uint8_t  RotationState = NO_ROTATION;
 volatile uint8_t  SelectedProgram = 0;
 volatile uint16_t CurrentMask;
+volatile step*    CurrentProgram;
+volatile uint32_t CycleTurn;
+volatile uint32_t CycleWait;
 
 void SelectProgram(uint8_t programme)
 {
@@ -39,8 +42,30 @@ void SelectProgram(uint8_t programme)
 // Rotation State Machine
 //-----------------------------------------------------------------------------------
 
-void StartRotation(void) { RotationState = RUN1_ROTATION; }
-void  StopRotation(void) { RotationState = STOP_ROTATION; }
+void StartRotation(uint8_t rotate) 
+{
+  if(rotate == pWOOL)
+  {
+    CycleTurn = seconds(1);
+    CycleWait = seconds(3);
+  }
+  else if(rotate == pHARD)
+  {
+    CycleTurn = seconds(1);
+    CycleWait = seconds(1);
+  }
+  else
+  {
+    CycleTurn = seconds(1);
+    CycleWait = seconds(2);
+  }
+  RotationState = RUN1_ROTATION; 
+}
+
+void  StopRotation(void) 
+{ 
+  RotationState = STOP_ROTATION; 
+}
 
 void RotationControl(void)
 {
@@ -53,21 +78,21 @@ void RotationControl(void)
       case RUN1_ROTATION:
         PORTA = ~((CurrentMask | MOTOR) & 0xFF);       // Motor forward
         PORTC = ~((CurrentMask | MOTOR) >> 8);
-        CountDown2 = seconds(3);                       // Duration : 3 sec.
+        CountDown2 = CycleTurn;
         RotationState = PAUSE_ROTATION;
         AfterPause    = RUN2_ROTATION;
       break;
       case RUN2_ROTATION:
         PORTA = ~((CurrentMask | MOTOR | REV) & 0xFF); // Motor reverse
         PORTC = ~((CurrentMask | MOTOR | REV) >> 8);
-        CountDown2 = seconds(3);                       // Duration : 3 sec.
+        CountDown2 = CycleTurn;
         RotationState = PAUSE_ROTATION;
         AfterPause    = RUN1_ROTATION;
       break;
       case PAUSE_ROTATION:
         PORTA = ~(CurrentMask & 0xFF);                 // Stop motor
         PORTC = ~(CurrentMask >> 8);
-        CountDown2 = seconds(1);                       // Duration : 1 sec.
+        CountDown2 = CycleWait;
         RotationState = AfterPause;
       break;
       case STOP_ROTATION:
@@ -89,8 +114,9 @@ uint8_t NoWash(void) { return WashStep == NO_WASH; }
 
 void StartWash(void) 
 { 
-  LCD_cls();
+  CurrentProgram = (step*)pgm_read_word(&Programs[SelectedProgram]);
   WashStep = 0; // First step of the program
+  LCD_cls();
 }
 
 void AbortWash(void) 
@@ -107,18 +133,19 @@ void WashControl(void)
 {
   if(CountDown1 == 0 && WashStep != NO_WASH)
   {
-    if( Programs[SelectedProgram]->Step[WashStep].end != 0 )
+    if( (pgm_read_byte(&CurrentProgram[WashStep].data) & pEND) != 0 )
     {
       WashStep = NO_WASH;
       DisplayProgram();
       return;
     }
     DisplayWashStatus();
-    if( Programs[SelectedProgram]->Step[WashStep].rotation != 0 ) StartRotation(); else StopRotation();
-    CurrentMask = pgm_read_word(Programs[SelectedProgram]->Step[WashStep].mask);
+    uint8_t rotate = pgm_read_byte(&CurrentProgram[WashStep].data) & pTURN;
+    if(rotate != 0) StartRotation(rotate); else StopRotation();
+    CurrentMask = pgm_read_word(&CurrentProgram[WashStep].mask);
     PORTA = ~(CurrentMask & 0xFF);
     PORTC = ~(CurrentMask >> 8);
-    CountDown1 = pgm_read_dword(Programs[SelectedProgram]->Step[WashStep].duration);
+    CountDown1 = pgm_read_dword(&CurrentProgram[WashStep].duration);
     WashStep++;
   }
 }
@@ -151,12 +178,13 @@ void DisplayWashStatus(void)
     sprintf(txt, "%02u", WashStep);
     LCD_puts(txt);
     LCD_move(0,3);
-    LCD_puts(WashText[(WashStep==NO_WASH ? 0 : Programs[SelectedProgram]->Step[WashStep].text)]);
+    uint8_t idtxt = ( WashStep==NO_WASH ? 0 : pgm_read_byte(&CurrentProgram[WashStep].data) & pTEXT );
+    LCD_puts_P((char *)pgm_read_word(&WashText[idtxt]));
   }
 }
 
 void DisplayProgram(void)
 {
   LCD_move(0,0);
-  LCD_puts(Programs[SelectedProgram]->Text);
+  LCD_puts_P((char*)pgm_read_word(&ProgText[SelectedProgram]));
 }

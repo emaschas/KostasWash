@@ -6,6 +6,7 @@
 
 #include "Hardware.h"
 #include "Washing.h"
+#include <avr/pgmspace.h>
 
 // System variables
 volatile uint8_t  SwitchPressed  = NO_PRESS;
@@ -64,7 +65,7 @@ void initialise(void)
   // LCD
   LCD_begin();
   LCD_specialCar();
-  LCD_puts("KostasWash v3.1\n");
+  LCD_puts_P(PSTR("KostasWash v3.4\n"));
   _delay_ms(1000);
   LCD_cls();
   DisplayProgram();
@@ -76,9 +77,9 @@ void initialise(void)
 //-----------------------------------------------------------------------------------
 int main(void)
 {
+  initialise();
   SwitchPressed  = NO_PRESS;
   EncoderChanged = false;
-  initialise();
   //
   // Main loop
   // ---------
@@ -98,7 +99,7 @@ int main(void)
         PORTA = 0xFF; // Stop everything : All relays to 1 (inverted logic)
         PORTC = 0xFF;        
         LCD_cls();
-        LCD_puts("Emergency STOP\n");
+        LCD_puts_P(PSTR("Emergency STOP\n"));
         _delay_ms(3000);
         DisplayProgram();
         // while(!0); // Loop for ever

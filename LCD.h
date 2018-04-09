@@ -9,6 +9,7 @@ void LCD_begin( void );
 void LCD_Envoi( uint8_t data, uint8_t shift );
 void LCD_putc( uint8_t c );
 void LCD_puts( char *s );
+void LCD_puts_P( const char *s );
 void LCD_cls( void );
 void LCD_home( void );
 void LCD_cursor( uint8_t CurOn, uint8_t CurBlink );
