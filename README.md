@@ -7,5 +7,5 @@ The human interface is based on a LCD and a rotary encoder.
 <h2>Power interface</h2>
 The power interface is based on a 16 relay board.
 <h2>Mechanical part</h2>
-The washing machine is an old one with a broken mechanical programmer.<br>
-More details to come...
+The washing machine is an old GROENJE WA583 with a broken mechanical programmer.<br>
+The diagram and some other information can be found in the "Documentation" folder.
