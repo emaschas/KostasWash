@@ -119,9 +119,10 @@ const char Text_Vidange[] PROGMEM = "Vidange         ";
 step Prog_Vidange[] PROGMEM = 
 {
   // Duration    txt       rot/end mask
-  { seconds( 3), wSTART          ,  LOCK },          //  Start
-  { seconds(10), wDRAIN          ,  LOCK|DRAIN },    //  Drain
-  { seconds( 0), wFINISH  | pEND ,  0    }           //  End of Program
+  { seconds( 3), wSTART          , LOCK },          //  Start
+  { seconds(10), wDRAIN          , LOCK|DRAIN },    //  Drain
+  { seconds(15), wPAUSE          , LOCK|R15 },      //  Pause
+  { seconds( 0), wFINISH  | pEND , 0    }           //  End of Program
 };
 
 #define PROGRAM_COUNT 3
