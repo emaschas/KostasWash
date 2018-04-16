@@ -100,9 +100,20 @@
 <pad name="P$2" x="0" y="-2.54" drill="0.8" shape="square"/>
 </package>
 <package name="RELAY">
-<pad name="P$1" x="0" y="0" drill="0.8" shape="square"/>
-<pad name="P$2" x="0" y="2.54" drill="0.8" shape="square"/>
-<pad name="P$3" x="0" y="-2.54" drill="0.8" shape="square"/>
+<pad name="C" x="0" y="0" drill="0.8" shape="square"/>
+<pad name="R" x="0" y="2.54" drill="0.8" shape="square"/>
+<pad name="T" x="0" y="-2.54" drill="0.8" shape="square"/>
+<wire x1="1.27" y1="3.81" x2="-11.43" y2="3.81" width="0.127" layer="21"/>
+<wire x1="-11.43" y1="3.81" x2="-11.43" y2="-3.81" width="0.127" layer="21"/>
+<wire x1="-11.43" y1="-3.81" x2="1.27" y2="-3.81" width="0.127" layer="21"/>
+<wire x1="1.27" y1="-3.81" x2="1.27" y2="3.81" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="2.54" x2="-5.08" y2="2.54" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-2.54" x2="-5.08" y2="-2.54" width="0.127" layer="21"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="0" x2="-2.794" y2="0" width="0.127" layer="21"/>
+<wire x1="-4.826" y1="1.27" x2="-2.794" y2="0" width="0.127" layer="21"/>
+<wire x1="-5.08" y1="2.54" x2="-5.08" y2="1.27" width="0.127" layer="21"/>
+<text x="-8.89" y="0" size="1.27" layer="21" rot="R90" align="center">&gt;NAME</text>
 </package>
 <package name="PS1">
 <pad name="P$1" x="0" y="0" drill="0.8" shape="square"/>
@@ -128,8 +139,12 @@
 <package name="CABLE">
 <description>Single Pin</description>
 <pad name="P$1" x="0" y="0" drill="0.8" diameter="1.778" shape="square"/>
-<text x="0" y="1.27" size="1.27" layer="25" rot="R90" align="center-left">&gt;NAME</text>
-<pad name="P$2" x="2.54" y="0" drill="0.000253125" diameter="0.254" shape="long"/>
+<text x="1.27" y="1.27" size="1.27" layer="25" rot="R90" align="center-left">&gt;NAME</text>
+<pad name="P$2" x="0" y="-2.54" drill="0.8" diameter="1.778" shape="square"/>
+<wire x1="-1.27" y1="1.27" x2="1.27" y2="1.27" width="0.127" layer="21"/>
+<wire x1="1.27" y1="1.27" x2="1.27" y2="-3.81" width="0.127" layer="21"/>
+<wire x1="1.27" y1="-3.81" x2="-1.27" y2="-3.81" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-3.81" x2="-1.27" y2="1.27" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -158,9 +173,9 @@
 <wire x1="12.7" y1="5.08" x2="12.7" y2="-5.08" width="0.254" layer="94"/>
 <wire x1="12.7" y1="-5.08" x2="0" y2="-5.08" width="0.254" layer="94"/>
 <wire x1="0" y1="-5.08" x2="0" y2="5.08" width="0.254" layer="94"/>
-<pin name="P$1" x="-2.54" y="0" visible="off" length="middle"/>
-<pin name="P$2" x="15.24" y="2.54" visible="off" length="middle" rot="R180"/>
-<pin name="P$3" x="15.24" y="-2.54" visible="off" length="middle" rot="R180"/>
+<pin name="C" x="-2.54" y="0" visible="off" length="middle"/>
+<pin name="R" x="15.24" y="2.54" visible="off" length="middle" rot="R180"/>
+<pin name="T" x="15.24" y="-2.54" visible="off" length="middle" rot="R180"/>
 <wire x1="2.54" y1="0" x2="10.16" y2="2.54" width="0.254" layer="94"/>
 <circle x="2.54" y="0" radius="0.254" width="0.508" layer="94"/>
 <circle x="10.16" y="-2.54" radius="0.254" width="0.508" layer="94"/>
@@ -285,9 +300,9 @@
 <devices>
 <device name="" package="RELAY">
 <connects>
-<connect gate="RELAY" pin="P$1" pad="P$1"/>
-<connect gate="RELAY" pin="P$2" pad="P$2"/>
-<connect gate="RELAY" pin="P$3" pad="P$3"/>
+<connect gate="RELAY" pin="C" pad="C"/>
+<connect gate="RELAY" pin="R" pad="R"/>
+<connect gate="RELAY" pin="T" pad="T"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -402,8 +417,8 @@ FEMALE ON CABLE SIDE</description>
 <part name="T2" library="Kostas" deviceset="PIN" device=""/>
 <part name="CI1" library="Kostas" deviceset="PIN" device=""/>
 <part name="CI2" library="Kostas" deviceset="PIN" device=""/>
-<part name="U$11" library="Kostas" deviceset="PIN" device=""/>
-<part name="U$12" library="Kostas" deviceset="PIN" device=""/>
+<part name="CA" library="Kostas" deviceset="PIN" device=""/>
+<part name="CB" library="Kostas" deviceset="PIN" device=""/>
 <part name="L3" library="Kostas" deviceset="PIN" device=""/>
 <part name="L1" library="Kostas" deviceset="PIN" device=""/>
 <part name="L2" library="Kostas" deviceset="PIN" device=""/>
@@ -512,8 +527,8 @@ FEMALE ON CABLE SIDE</description>
 <instance part="T2" gate="PIN" x="137.16" y="25.4" rot="R90"/>
 <instance part="CI1" gate="PIN" x="170.18" y="66.04" rot="R270"/>
 <instance part="CI2" gate="PIN" x="170.18" y="45.72" rot="R90"/>
-<instance part="U$11" gate="PIN" x="228.6" y="124.46"/>
-<instance part="U$12" gate="PIN" x="246.38" y="124.46" rot="R180"/>
+<instance part="CA" gate="PIN" x="228.6" y="124.46"/>
+<instance part="CB" gate="PIN" x="246.38" y="124.46" rot="R180"/>
 <instance part="L3" gate="PIN" x="43.18" y="10.16" rot="R180"/>
 <instance part="L1" gate="PIN" x="30.48" y="22.86" rot="R270"/>
 <instance part="L2" gate="PIN" x="27.94" y="10.16"/>
@@ -571,12 +586,12 @@ FEMALE ON CABLE SIDE</description>
 <wire x1="27.94" y1="139.7" x2="27.94" y2="198.12" width="0.3048" layer="91"/>
 <wire x1="45.72" y1="198.12" x2="213.36" y2="198.12" width="0.3048" layer="91"/>
 <wire x1="213.36" y1="198.12" x2="233.68" y2="198.12" width="0.3048" layer="91"/>
-<pinref part="R01" gate="RELAY" pin="P$1"/>
-<pinref part="R07" gate="RELAY" pin="P$1"/>
+<pinref part="R01" gate="RELAY" pin="C"/>
+<pinref part="R07" gate="RELAY" pin="C"/>
 <wire x1="208.28" y1="185.42" x2="213.36" y2="185.42" width="0.3048" layer="91"/>
 <wire x1="213.36" y1="185.42" x2="213.36" y2="198.12" width="0.3048" layer="91"/>
 <junction x="213.36" y="198.12"/>
-<pinref part="R08" gate="RELAY" pin="P$1"/>
+<pinref part="R08" gate="RELAY" pin="C"/>
 <wire x1="233.68" y1="198.12" x2="233.68" y2="187.96" width="0.3048" layer="91"/>
 <pinref part="E7" gate="CABLE" pin="PIN1"/>
 <pinref part="E6" gate="CABLE" pin="PIN1"/>
@@ -627,7 +642,7 @@ FEMALE ON CABLE SIDE</description>
 <segment>
 <wire x1="208.28" y1="93.98" x2="261.62" y2="81.28" width="0.3048" layer="91"/>
 <wire x1="261.62" y1="81.28" x2="261.62" y2="76.2" width="0.3048" layer="91"/>
-<pinref part="R10" gate="RELAY" pin="P$3"/>
+<pinref part="R10" gate="RELAY" pin="T"/>
 <wire x1="208.28" y1="96.52" x2="208.28" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="C6" gate="CABLE" pin="PIN1"/>
 </segment>
@@ -635,7 +650,7 @@ FEMALE ON CABLE SIDE</description>
 <net name="N$14" class="0">
 <segment>
 <wire x1="213.36" y1="81.28" x2="266.7" y2="96.52" width="0.3048" layer="91"/>
-<pinref part="R11" gate="RELAY" pin="P$2"/>
+<pinref part="R11" gate="RELAY" pin="R"/>
 <pinref part="D2" gate="CABLE" pin="PIN1"/>
 <wire x1="213.36" y1="76.2" x2="213.36" y2="81.28" width="0.3048" layer="91"/>
 </segment>
@@ -647,8 +662,8 @@ FEMALE ON CABLE SIDE</description>
 <wire x1="238.76" y1="147.32" x2="238.76" y2="139.7" width="0.3048" layer="91"/>
 <wire x1="238.76" y1="139.7" x2="269.24" y2="139.7" width="0.3048" layer="91"/>
 <wire x1="269.24" y1="139.7" x2="269.24" y2="124.46" width="0.3048" layer="91"/>
-<pinref part="R09" gate="RELAY" pin="P$3"/>
-<pinref part="R11" gate="RELAY" pin="P$1"/>
+<pinref part="R09" gate="RELAY" pin="T"/>
+<pinref part="R11" gate="RELAY" pin="C"/>
 <wire x1="269.24" y1="114.3" x2="269.24" y2="124.46" width="0.3048" layer="91"/>
 <pinref part="D6" gate="CABLE" pin="PIN1"/>
 </segment>
@@ -659,9 +674,9 @@ FEMALE ON CABLE SIDE</description>
 <wire x1="233.68" y1="139.7" x2="205.74" y2="139.7" width="0.3048" layer="91"/>
 <wire x1="205.74" y1="139.7" x2="205.74" y2="124.46" width="0.3048" layer="91"/>
 <junction x="205.74" y="124.46"/>
-<pinref part="R09" gate="RELAY" pin="P$2"/>
+<pinref part="R09" gate="RELAY" pin="R"/>
 <wire x1="233.68" y1="139.7" x2="233.68" y2="147.32" width="0.3048" layer="91"/>
-<pinref part="R10" gate="RELAY" pin="P$1"/>
+<pinref part="R10" gate="RELAY" pin="C"/>
 <wire x1="205.74" y1="114.3" x2="205.74" y2="124.46" width="0.3048" layer="91"/>
 <pinref part="E2" gate="CABLE" pin="PIN1"/>
 </segment>
@@ -675,13 +690,13 @@ FEMALE ON CABLE SIDE</description>
 <junction x="93.98" y="119.38"/>
 <wire x1="86.36" y1="119.38" x2="93.98" y2="119.38" width="0.3048" layer="91"/>
 <wire x1="93.98" y1="116.84" x2="93.98" y2="119.38" width="0.3048" layer="91"/>
-<pinref part="R04" gate="RELAY" pin="P$1"/>
-<pinref part="R05" gate="RELAY" pin="P$1"/>
+<pinref part="R04" gate="RELAY" pin="C"/>
+<pinref part="R05" gate="RELAY" pin="C"/>
 <junction x="66.04" y="119.38"/>
-<pinref part="R03" gate="RELAY" pin="P$3"/>
+<pinref part="R03" gate="RELAY" pin="T"/>
 <wire x1="86.36" y1="121.92" x2="86.36" y2="119.38" width="0.3048" layer="91"/>
 <junction x="86.36" y="119.38"/>
-<pinref part="R02" gate="RELAY" pin="P$3"/>
+<pinref part="R02" gate="RELAY" pin="T"/>
 <wire x1="66.04" y1="121.92" x2="66.04" y2="119.38" width="0.3048" layer="91"/>
 <pinref part="C1" gate="CABLE" pin="PIN1"/>
 </segment>
@@ -708,21 +723,21 @@ FEMALE ON CABLE SIDE</description>
 </net>
 <net name="N$6" class="0">
 <segment>
-<pinref part="R01" gate="RELAY" pin="P$3"/>
+<pinref part="R01" gate="RELAY" pin="T"/>
 <pinref part="E5" gate="CABLE" pin="PIN1"/>
 <wire x1="30.48" y1="121.92" x2="30.48" y2="38.1" width="0.3048" layer="91"/>
 </segment>
 </net>
 <net name="N$7" class="0">
 <segment>
-<pinref part="R10" gate="RELAY" pin="P$2"/>
+<pinref part="R10" gate="RELAY" pin="R"/>
 <pinref part="D4" gate="CABLE" pin="PIN1"/>
 <wire x1="203.2" y1="76.2" x2="203.2" y2="96.52" width="0.3048" layer="91"/>
 </segment>
 </net>
 <net name="N$9" class="0">
 <segment>
-<pinref part="R11" gate="RELAY" pin="P$3"/>
+<pinref part="R11" gate="RELAY" pin="T"/>
 <pinref part="C2" gate="CABLE" pin="PIN1"/>
 <wire x1="271.78" y1="76.2" x2="271.78" y2="96.52" width="0.3048" layer="91"/>
 </segment>
@@ -771,8 +786,8 @@ FEMALE ON CABLE SIDE</description>
 </net>
 <net name="N$12" class="0">
 <segment>
-<pinref part="R08" gate="RELAY" pin="P$3"/>
-<pinref part="R09" gate="RELAY" pin="P$1"/>
+<pinref part="R08" gate="RELAY" pin="T"/>
+<pinref part="R09" gate="RELAY" pin="C"/>
 <wire x1="236.22" y1="170.18" x2="236.22" y2="165.1" width="0.3048" layer="91"/>
 </segment>
 </net>
@@ -848,13 +863,13 @@ FEMALE ON CABLE SIDE</description>
 <net name="D6" class="0">
 <segment>
 <pinref part="D6" gate="CABLE" pin="PIN2"/>
-<pinref part="U$12" gate="PIN" pin="PIN1"/>
+<pinref part="CB" gate="PIN" pin="PIN1"/>
 <wire x1="246.38" y1="124.46" x2="251.46" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$33" class="1">
 <segment>
-<pinref part="U$11" gate="PIN" pin="PIN1"/>
+<pinref part="CA" gate="PIN" pin="PIN1"/>
 <wire x1="220.98" y1="124.46" x2="228.6" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="E2" gate="CABLE" pin="PIN2"/>
 </segment>
@@ -896,7 +911,7 @@ FEMALE ON CABLE SIDE</description>
 </net>
 <net name="N$42" class="0">
 <segment>
-<pinref part="R02" gate="RELAY" pin="P$1"/>
+<pinref part="R02" gate="RELAY" pin="C"/>
 <pinref part="C8" gate="CABLE" pin="PIN1"/>
 <wire x1="63.5" y1="142.24" x2="63.5" y2="139.7" width="0.3048" layer="91"/>
 </segment>
@@ -904,7 +919,7 @@ FEMALE ON CABLE SIDE</description>
 <net name="N$43" class="0">
 <segment>
 <pinref part="C7" gate="CABLE" pin="PIN1"/>
-<pinref part="R03" gate="RELAY" pin="P$1"/>
+<pinref part="R03" gate="RELAY" pin="C"/>
 <wire x1="83.82" y1="139.7" x2="83.82" y2="142.24" width="0.3048" layer="91"/>
 </segment>
 </net>
@@ -917,14 +932,14 @@ FEMALE ON CABLE SIDE</description>
 </net>
 <net name="N$45" class="0">
 <segment>
-<pinref part="R06" gate="RELAY" pin="P$1"/>
+<pinref part="R06" gate="RELAY" pin="C"/>
 <pinref part="D11" gate="CABLE" pin="PIN1"/>
 <wire x1="134.62" y1="142.24" x2="134.62" y2="121.92" width="0.3048" layer="91"/>
 </segment>
 </net>
 <net name="N$47" class="0">
 <segment>
-<pinref part="R04" gate="RELAY" pin="P$3"/>
+<pinref part="R04" gate="RELAY" pin="T"/>
 <wire x1="68.58" y1="99.06" x2="68.58" y2="88.9" width="0.3048" layer="91"/>
 <pinref part="E4" gate="CABLE" pin="PIN1"/>
 </segment>
@@ -939,7 +954,7 @@ FEMALE ON CABLE SIDE</description>
 <net name="N$25" class="0">
 <segment>
 <pinref part="D3" gate="CABLE" pin="PIN1"/>
-<pinref part="R05" gate="RELAY" pin="P$3"/>
+<pinref part="R05" gate="RELAY" pin="T"/>
 <wire x1="96.52" y1="99.06" x2="96.52" y2="88.9" width="0.3048" layer="91"/>
 </segment>
 </net>
@@ -952,14 +967,14 @@ FEMALE ON CABLE SIDE</description>
 </net>
 <net name="N$23" class="0">
 <segment>
-<pinref part="R06" gate="RELAY" pin="P$3"/>
+<pinref part="R06" gate="RELAY" pin="T"/>
 <wire x1="137.16" y1="104.14" x2="137.16" y2="99.06" width="0.3048" layer="91"/>
 <pinref part="C12" gate="CABLE" pin="PIN1"/>
 </segment>
 </net>
 <net name="N$24" class="0">
 <segment>
-<pinref part="R07" gate="RELAY" pin="P$3"/>
+<pinref part="R07" gate="RELAY" pin="T"/>
 <wire x1="190.5" y1="182.88" x2="185.42" y2="182.88" width="0.3048" layer="91"/>
 <pinref part="C11" gate="CABLE" pin="PIN1"/>
 </segment>
