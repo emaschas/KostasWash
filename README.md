@@ -9,3 +9,5 @@ The power interface is based on a 16 relay board.
 <h2>Mechanical part</h2>
 The washing machine is an old GROENJE WA583 with a broken mechanical programmer.<br>
 The diagram and some other information can be found in the "Documentation" folder.
+<h2>More details</h2>
+See the <i>Wiki</i> pages for more details...
