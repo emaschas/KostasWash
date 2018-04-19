@@ -100,20 +100,27 @@
 <pad name="P$2" x="0" y="-2.54" drill="0.8" shape="square"/>
 </package>
 <package name="RELAY">
-<pad name="C" x="0" y="0" drill="0.8" shape="square"/>
-<pad name="R" x="0" y="2.54" drill="0.8" shape="square"/>
-<pad name="T" x="0" y="-2.54" drill="0.8" shape="square"/>
+<pad name="C" x="-1.27" y="0" drill="0.8" shape="square"/>
+<pad name="R" x="-1.27" y="2.54" drill="0.8" shape="square"/>
+<pad name="T" x="-1.27" y="-2.54" drill="0.8" shape="square"/>
 <wire x1="1.27" y1="3.81" x2="-11.43" y2="3.81" width="0.127" layer="21"/>
 <wire x1="-11.43" y1="3.81" x2="-11.43" y2="-3.81" width="0.127" layer="21"/>
 <wire x1="-11.43" y1="-3.81" x2="1.27" y2="-3.81" width="0.127" layer="21"/>
 <wire x1="1.27" y1="-3.81" x2="1.27" y2="3.81" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="2.54" x2="-5.08" y2="2.54" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="-2.54" x2="-5.08" y2="-2.54" width="0.127" layer="21"/>
-<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="0" x2="-2.794" y2="0" width="0.127" layer="21"/>
-<wire x1="-4.826" y1="1.27" x2="-2.794" y2="0" width="0.127" layer="21"/>
-<wire x1="-5.08" y1="2.54" x2="-5.08" y2="1.27" width="0.127" layer="21"/>
+<wire x1="-3.175" y1="2.54" x2="0.635" y2="2.54" width="0.127" layer="22"/>
+<wire x1="-3.175" y1="-2.54" x2="0.635" y2="-2.54" width="0.127" layer="22"/>
+<wire x1="0.635" y1="-2.54" x2="0.635" y2="-1.27" width="0.127" layer="22"/>
+<wire x1="-3.175" y1="0" x2="-0.381" y2="0" width="0.127" layer="22"/>
+<wire x1="0.381" y1="1.27" x2="-0.381" y2="0" width="0.127" layer="22"/>
+<wire x1="0.635" y1="2.54" x2="0.635" y2="1.27" width="0.127" layer="22"/>
 <text x="-8.89" y="0" size="1.27" layer="21" rot="R90" align="center">&gt;NAME</text>
+<wire x1="-10.795" y1="3.175" x2="-3.175" y2="3.175" width="0.127" layer="21"/>
+<wire x1="-3.175" y1="3.175" x2="-3.175" y2="-3.175" width="0.127" layer="21"/>
+<wire x1="-3.175" y1="-3.175" x2="-10.795" y2="-3.175" width="0.127" layer="21"/>
+<wire x1="-10.795" y1="-3.175" x2="-10.795" y2="3.175" width="0.127" layer="21"/>
+<text x="0.635" y="3.175" size="0.508" layer="21" rot="R90" align="center">NC</text>
+<text x="0.635" y="-3.175" size="0.508" layer="21" rot="R90" align="center">NO</text>
+<text x="0.635" y="0" size="0.508" layer="21" rot="R90" align="center">COM</text>
 </package>
 <package name="PS1">
 <pad name="P$1" x="0" y="0" drill="0.8" shape="square"/>
@@ -461,6 +468,12 @@ FEMALE ON CABLE SIDE</description>
 <part name="D3" library="Kostas" deviceset="CABLE" device=""/>
 <part name="E4" library="Kostas" deviceset="CABLE" device=""/>
 <part name="E6" library="Kostas" deviceset="CABLE" device=""/>
+<part name="R12" library="Kostas" deviceset="RELAY" device=""/>
+<part name="R13" library="Kostas" deviceset="RELAY" device=""/>
+<part name="R14" library="Kostas" deviceset="RELAY" device=""/>
+<part name="R15" library="Kostas" deviceset="RELAY" device=""/>
+<part name="R16" library="Kostas" deviceset="RELAY" device=""/>
+<part name="N1" library="Kostas" deviceset="CABLE" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -509,6 +522,7 @@ FEMALE ON CABLE SIDE</description>
 <text x="256.54" y="55.88" size="1.778" layer="97" rot="R90" align="center">SPIN MOTOR</text>
 <text x="198.12" y="55.88" size="1.778" layer="97" rot="R90" align="center">WASH MOTOR</text>
 <text x="160.02" y="55.88" size="1.778" layer="97" rot="R90" align="center">PUMP</text>
+<text x="302.26" y="195.58" size="3.048" layer="95" align="center">NOT USED</text>
 </plain>
 <instances>
 <instance part="S1" gate="PIN" x="-20.32" y="96.52"/>
@@ -533,8 +547,8 @@ FEMALE ON CABLE SIDE</description>
 <instance part="L1" gate="PIN" x="30.48" y="22.86" rot="R270"/>
 <instance part="L2" gate="PIN" x="27.94" y="10.16"/>
 <instance part="E5" gate="CABLE" x="30.48" y="38.1" rot="R270"/>
-<instance part="COLD_WATER_VALVE" gate="VALVE" x="71.12" y="58.42" rot="R90"/>
-<instance part="HOT_WATER_VALVE" gate="VALVE" x="99.06" y="58.42" rot="R90"/>
+<instance part="COLD_WATER_VALVE" gate="VALVE" x="71.12" y="66.04" rot="R90"/>
+<instance part="HOT_WATER_VALVE" gate="VALVE" x="99.06" y="66.04" rot="R90"/>
 <instance part="R04" gate="RELAY" x="66.04" y="114.3" rot="MR270"/>
 <instance part="R05" gate="RELAY" x="93.98" y="114.3" rot="MR270"/>
 <instance part="R01" gate="RELAY" x="27.94" y="137.16" rot="MR270"/>
@@ -571,6 +585,12 @@ FEMALE ON CABLE SIDE</description>
 <instance part="D3" gate="CABLE" x="96.52" y="88.9" rot="R270"/>
 <instance part="E4" gate="CABLE" x="68.58" y="88.9" rot="R270"/>
 <instance part="E6" gate="CABLE" x="22.86" y="198.12" rot="R180"/>
+<instance part="R12" gate="RELAY" x="307.34" y="182.88" rot="MR0"/>
+<instance part="R13" gate="RELAY" x="307.34" y="167.64" rot="MR0"/>
+<instance part="R14" gate="RELAY" x="307.34" y="152.4" rot="MR0"/>
+<instance part="R15" gate="RELAY" x="307.34" y="137.16" rot="MR0"/>
+<instance part="R16" gate="RELAY" x="307.34" y="121.92" rot="MR0"/>
+<instance part="N1" gate="CABLE" x="116.84" y="53.34" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -746,7 +766,7 @@ FEMALE ON CABLE SIDE</description>
 <segment>
 <pinref part="COLD_WATER_VALVE" gate="VALVE" pin="P$2"/>
 <pinref part="E4" gate="CABLE" pin="PIN2"/>
-<wire x1="68.58" y1="81.28" x2="68.58" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="81.28" x2="68.58" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="E5" class="0">
@@ -759,7 +779,7 @@ FEMALE ON CABLE SIDE</description>
 <net name="N$4" class="0">
 <segment>
 <pinref part="HOT_WATER_VALVE" gate="VALVE" pin="P$2"/>
-<wire x1="96.52" y1="68.58" x2="96.52" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="76.2" x2="96.52" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="D3" gate="CABLE" pin="PIN2"/>
 </segment>
 </net>
@@ -877,13 +897,8 @@ FEMALE ON CABLE SIDE</description>
 <net name="D10" class="0">
 <segment>
 <pinref part="COLD_WATER_VALVE" gate="VALVE" pin="P$1"/>
-<wire x1="71.12" y1="58.42" x2="71.12" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="D10" gate="CABLE" pin="PIN2"/>
-<pinref part="HOT_WATER_VALVE" gate="VALVE" pin="P$1"/>
-<wire x1="71.12" y1="45.72" x2="71.12" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="58.42" x2="99.06" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="71.12" y1="45.72" x2="99.06" y2="45.72" width="0.1524" layer="91"/>
-<junction x="71.12" y="45.72"/>
+<wire x1="71.12" y1="66.04" x2="71.12" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$21" class="0">
@@ -958,13 +973,6 @@ FEMALE ON CABLE SIDE</description>
 <wire x1="96.52" y1="99.06" x2="96.52" y2="88.9" width="0.3048" layer="91"/>
 </segment>
 </net>
-<net name="N$13" class="0">
-<segment>
-<pinref part="B6" gate="CABLE" pin="PIN1"/>
-<pinref part="B7" gate="CABLE" pin="PIN1"/>
-<wire x1="137.16" y1="55.88" x2="137.16" y2="50.8" width="0.3048" layer="91"/>
-</segment>
-</net>
 <net name="N$23" class="0">
 <segment>
 <pinref part="R06" gate="RELAY" pin="T"/>
@@ -986,6 +994,25 @@ FEMALE ON CABLE SIDE</description>
 <wire x1="15.24" y1="198.12" x2="0" y2="198.12" width="0.1524" layer="91"/>
 <wire x1="0" y1="198.12" x2="0" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="0" y1="96.52" x2="-7.62" y2="96.52" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="B6" gate="CABLE" pin="PIN1"/>
+<pinref part="B7" gate="CABLE" pin="PIN1"/>
+<wire x1="116.84" y1="53.34" x2="137.16" y2="53.34" width="0.3048" layer="91"/>
+<wire x1="137.16" y1="55.88" x2="137.16" y2="53.34" width="0.3048" layer="91"/>
+<wire x1="137.16" y1="53.34" x2="137.16" y2="50.8" width="0.3048" layer="91"/>
+<junction x="137.16" y="53.34"/>
+<pinref part="N1" gate="CABLE" pin="PIN1"/>
+</segment>
+</net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="N1" gate="CABLE" pin="PIN2"/>
+<pinref part="HOT_WATER_VALVE" gate="VALVE" pin="P$1"/>
+<wire x1="99.06" y1="66.04" x2="99.06" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="53.34" x2="109.22" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
