@@ -107,11 +107,29 @@
 <description>Single Pin</description>
 <pad name="P$1" x="0" y="0" drill="0.8" diameter="1.778" shape="square"/>
 <text x="1.27" y="1.27" size="1.27" layer="25" rot="R90" align="center-left">&gt;NAME</text>
-<pad name="P$2" x="0" y="-2.54" drill="0.8" diameter="1.778" shape="square"/>
+<pad name="P$2" x="0" y="-6.35" drill="0.002540625" diameter="0.254"/>
 <wire x1="-1.27" y1="1.27" x2="1.27" y2="1.27" width="0.127" layer="21"/>
 <wire x1="1.27" y1="1.27" x2="1.27" y2="-3.81" width="0.127" layer="21"/>
 <wire x1="1.27" y1="-3.81" x2="-1.27" y2="-3.81" width="0.127" layer="21"/>
 <wire x1="-1.27" y1="-3.81" x2="-1.27" y2="1.27" width="0.127" layer="21"/>
+<polygon width="0" layer="17">
+<vertex x="0.381" y="-2.54"/>
+<vertex x="0.889" y="-2.54"/>
+<vertex x="0.889" y="-3.429"/>
+<vertex x="-0.889" y="-3.429"/>
+<vertex x="-0.889" y="-2.54"/>
+<vertex x="-0.381" y="-2.54" curve="90"/>
+<vertex x="0" y="-2.921" curve="90"/>
+</polygon>
+<polygon width="0" layer="17">
+<vertex x="-0.381" y="-2.54"/>
+<vertex x="-0.889" y="-2.54"/>
+<vertex x="-0.889" y="-1.651"/>
+<vertex x="0.889" y="-1.651"/>
+<vertex x="0.889" y="-2.54"/>
+<vertex x="0.381" y="-2.54" curve="90"/>
+<vertex x="0" y="-2.159" curve="90"/>
+</polygon>
 </package>
 <package name="CAPACITOR">
 <pad name="C1" x="-1.27" y="0" drill="0.8" shape="square"/>
