@@ -1,6 +1,7 @@
 .dep/
 objects/
 release/
+.vscode/
 
 # Eagle backup files
 *.b#?

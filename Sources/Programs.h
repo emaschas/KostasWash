@@ -57,7 +57,7 @@ const char* WashText[] PROGMEM =
 
 // Definition of Washing Programs
 // ------------------------------
-const char Text_Long[] PROGMEM = "Programme long  ";
+const char Text_Long[] PROGMEM = "Programme Long  ";
 step Prog_Long[] PROGMEM =
 {
   // Duration    txt      rot/end  mask
@@ -86,7 +86,7 @@ step Prog_Long[] PROGMEM =
   { seconds( 0), wFINISH |  pEND , 0 }                              //  End of Program
 };
 
-const char Text_Court[] PROGMEM = "Programme court ";
+const char Text_Court[] PROGMEM = "Programme Court ";
 step Prog_Court[] PROGMEM =
 {
   // Duration    txt       rot/end mask
