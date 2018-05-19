@@ -23,8 +23,8 @@ typedef struct
 #define pTEXT   0x0F                // Mask for text id
 
 
-// Definition of Texts to display during Washing
-// ---------------------------------------------
+// Definition of Texts to display during Washing sequences
+// -------------------------------------------------------
 
 const char wtSTART[]  PROGMEM = "Debut     ";
 const char wtPRE[]    PROGMEM = "Prelavage ";
