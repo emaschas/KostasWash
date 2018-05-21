@@ -1,6 +1,7 @@
 #include <avr/pgmspace.h>
 
 // To be completed !
+// =================
 
 // Washing programs definitions
 // ----------------------------
