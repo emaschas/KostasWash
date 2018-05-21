@@ -17,6 +17,7 @@ enum RotationStatus
   STOP_ROTATION
 };
 
+
 // Washing programs definitions
 // ----------------------------
 #include "Programs.h"

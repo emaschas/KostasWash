@@ -1,5 +1,7 @@
 #include <avr/pgmspace.h>
 
+// To be completed !
+
 // Washing programs definitions
 // ----------------------------
 
@@ -21,7 +23,6 @@ typedef struct
 #define pWOOL   0x10                // Soft rotation for Wool
 #define pTURN   (pHARD|pNORM|pWOOL) // Combine mask for rotation
 #define pTEXT   0x0F                // Mask for text id
-
 
 // Definition of Texts to display during Washing sequences
 // -------------------------------------------------------
