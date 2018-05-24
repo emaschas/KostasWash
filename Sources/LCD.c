@@ -231,7 +231,7 @@ void LCD_cursor( uint8_t CurOn, uint8_t CurBlink )
 void LCD_specialCar()
 {
   LCD_Envoi( 0x40, CM );
-  // Char 0
+  // Char 0 or 8
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b01110, RS );
   LCD_Envoi( 0b10001, RS );
@@ -240,7 +240,7 @@ void LCD_specialCar()
   LCD_Envoi( 0b01110, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
-  // Char 1
+  // Char 1 or 9
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b01110, RS );
   LCD_Envoi( 0b11111, RS );
@@ -249,7 +249,7 @@ void LCD_specialCar()
   LCD_Envoi( 0b01110, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
-  // Char 2
+  // Char 2 or 10
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00001, RS );
@@ -258,7 +258,7 @@ void LCD_specialCar()
   LCD_Envoi( 0b00001, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
-  // Char 3
+  // Char 3 or 11
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b11111, RS );
@@ -267,7 +267,7 @@ void LCD_specialCar()
   LCD_Envoi( 0b11111, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
-  // Char 4
+  // Char 4 or 12
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b11111, RS );
@@ -276,7 +276,7 @@ void LCD_specialCar()
   LCD_Envoi( 0b11111, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
-  // Char 5
+  // Char 5 or 13
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b10000, RS );
@@ -285,6 +285,24 @@ void LCD_specialCar()
   LCD_Envoi( 0b10000, RS );
   LCD_Envoi( 0b00000, RS );
   LCD_Envoi( 0b00000, RS );
+  // Char 6 or 14
+  LCD_Envoi( 0b01010, RS );
+  LCD_Envoi( 0b10101, RS );
+  LCD_Envoi( 0b01010, RS );
+  LCD_Envoi( 0b10101, RS );
+  LCD_Envoi( 0b01010, RS );
+  LCD_Envoi( 0b10101, RS );
+  LCD_Envoi( 0b01010, RS );
+  LCD_Envoi( 0b10101, RS );
+  // Char 7 or 15 (last)
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
+  LCD_Envoi( 0b11111, RS );
   LCD_move(0,0);
 }
 

@@ -114,10 +114,10 @@ int main(void)
       if( NoWash() ) SelectProgram(EncoderCount);
       EncoderChanged = false;
     }
-    // Update : Rotation Machine State
+    // Update Rotation Machine State
     // -------------------------------
     RotationControl();
-    // Update : Washing Machine State
+    // Update Washing Machine State
     // ------------------------------
     WashControl();
   }
