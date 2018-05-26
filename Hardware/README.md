@@ -1,3 +1,3 @@
 # KostasWash - Hardware
-<h1>Hardware pictures</h1>
+
 This forlder contains photos of the hardware...
