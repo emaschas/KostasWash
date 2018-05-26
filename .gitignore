@@ -9,3 +9,6 @@ release/
 *.l#?
 
 git.bat
+git_fetch.bat
+git_commit.bat
+git_push.bat
